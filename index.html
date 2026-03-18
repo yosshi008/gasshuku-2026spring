@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>合宿チーム分け — Nstock春合宿2026</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f0f2f5; padding: 24px 12px; color: #1a1a2e; }
+  h1 { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { text-align: center; font-size: 13px; color: #666; margin-bottom: 16px; }
+
+  /* タブ */
+  .tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; }
+  .tab { padding: 8px 24px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; border: 2px solid #ccc; background: #fff; color: #666; transition: all .2s; }
+  .tab:hover { border-color: #999; }
+  .tab.active { background: #333; color: #fff; border-color: #333; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .section-title { text-align: center; font-size: 16px; font-weight: 700; color: #444; margin-bottom: 4px; }
+  .section-sub { text-align: center; font-size: 12px; color: #888; margin-bottom: 16px; }
+
+  .buses { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; align-items: flex-start; }
+
+  .bus-container { flex-shrink: 0; }
+  .bus-title { text-align: center; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .bus-title .count { font-weight: 400; color: #888; font-size: 12px; margin-left: 4px; }
+  .bus-title .sub { display: block; font-size: 10px; font-weight: 400; color: #999; }
+  .bus-title.tokyo { color: #2b6c99; }
+  .bus-title.tokyo1 { color: #2b6c99; }
+  .bus-title.tokyo2 { color: #6a4c93; }
+  .bus-title.odawara { color: #b8860b; }
+
+  .bus { background: #fff; border-radius: 36px 36px 14px 14px; box-shadow: 0 3px 16px rgba(0,0,0,.10); padding: 14px 10px 18px; width: 290px; position: relative; border: 2.5px solid #ccc; }
+
+  .bus-front { display: flex; justify-content: space-between; align-items: center; padding: 0 6px 8px; border-bottom: 2px dashed #ddd; margin-bottom: 4px; }
+  .driver { background: #333; color: #fff; font-size: 9px; font-weight: 600; padding: 3px 8px; border-radius: 5px; }
+  .entrance { font-size: 9px; font-weight: 600; color: #e74c3c; }
+  .entrance::before { content: '▶ '; }
+
+  .col-header { display: grid; grid-template-columns: 20px 1fr 1fr 32px 1fr 1fr; gap: 2px; align-items: center; margin-bottom: 2px; padding: 0 0 3px; border-bottom: 1px solid #eee; }
+  .col-label { text-align: center; font-size: 8px; font-weight: 700; color: #999; letter-spacing: 0.5px; }
+
+  .row { display: grid; grid-template-columns: 20px 1fr 1fr 32px 1fr 1fr; gap: 2px; align-items: center; margin-bottom: 2px; }
+  .row-label { font-size: 8px; color: #aaa; text-align: center; font-weight: 600; }
+
+  .seat { border-radius: 5px; padding: 4px 1px; text-align: center; font-size: 9px; font-weight: 600; min-height: 28px; display: flex; align-items: center; justify-content: center; line-height: 1.2; transition: transform .1s; }
+  .seat:hover { transform: scale(1.06); z-index: 1; }
+
+  .seat.tk { background: #e8f4fd; border: 1.5px solid #4a9ece; color: #2b6c99; }
+  .seat.t2 { background: #f0e8fd; border: 1.5px solid #8a6cce; color: #5a3c93; }
+  .seat.od { background: #fef3e2; border: 1.5px solid #e8a838; color: #8a6318; }
+  .seat.empty { background: #fafafa; border: 1.5px solid #e0e0e0; color: #ccc; }
+  .seat.aux { background: #f5f5f5; border: 1.5px dashed #ccc; color: #bbb; font-size: 7px; min-height: 22px; }
+  .seat.crew { position: relative; }
+  .seat.crew::after { content: '★'; position: absolute; top: 0px; right: 1px; font-size: 6px; }
+
+  .bus-back { border-top: 2px dashed #ddd; margin-top: 6px; padding-top: 4px; text-align: center; font-size: 9px; color: #aaa; }
+
+  .notes-section { max-width: 940px; margin: 20px auto 0; }
+  .notes { background: #fffbe6; border: 1px solid #ffe58f; border-radius: 8px; padding: 10px 14px; font-size: 11px; line-height: 1.7; }
+  .notes h3 { font-size: 12px; margin-bottom: 4px; }
+  .notes li { margin-left: 14px; margin-bottom: 2px; }
+  .notes .tag { display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 3px; font-weight: 600; margin-right: 3px; }
+  .notes .tag.tk { background: #e8f4fd; color: #2b6c99; }
+  .notes .tag.t2 { background: #f0e8fd; color: #5a3c93; }
+  .notes .tag.od { background: #fef3e2; color: #8a6318; }
+  .notes .tag.na { background: #fee; color: #c33; }
+
+  .legend { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+  .legend-dot.tk { background: #e8f4fd; border: 2px solid #4a9ece; }
+  .legend-dot.t2 { background: #f0e8fd; border: 2px solid #8a6cce; }
+  .legend-dot.od { background: #fef3e2; border: 2px solid #e8a838; }
+  .legend-dot.crew { background: #fff; border: 2px solid #999; position: relative; }
+  .legend-dot.crew::after { content: '★'; position: absolute; top: -2px; right: -2px; font-size: 6px; }
+
+  /* 部屋割り */
+  .rooms-container { max-width: 900px; margin: 0 auto; }
+  .rooms-container h2 { font-size: 12px; margin: 16px 0 8px; padding: 6px 12px; border-radius: 20px; color: #fff; display: inline-block; }
+  .suite-header { background: linear-gradient(135deg, #8B6914, #C4972A); }
+  .female-header { background: linear-gradient(135deg, #C25B78, #E87DA0); }
+  .male-header { background: linear-gradient(135deg, #3A6EA5, #5B9BD5); }
+  .note-header { background: linear-gradient(135deg, #555, #888); }
+  .rooms-container .count { font-size: 9px; color: rgba(255,255,255,0.8); font-weight: normal; margin-left: 6px; }
+  .room-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin-bottom: 12px; }
+  .room-card { background: #fff; border-radius: 8px; padding: 10px 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .room-card .members { font-weight: 700; font-size: 12px; line-height: 1.4; white-space: nowrap; }
+  .room-card .night-tags { display: flex; gap: 3px; flex-wrap: wrap; flex-shrink: 0; }
+  .night-tag { display: inline-block; padding: 2px 6px; border-radius: 10px; font-size: 8px; font-weight: 600; white-space: nowrap; }
+  .n22 { background: #E8F5E9; color: #2E7D32; }
+  .n23 { background: #FFF3E0; color: #E65100; }
+  .n24 { background: #E3F2FD; color: #1565C0; }
+  .alive { background: #F3E5F5; color: #7B1FA2; }
+  .note-list { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
+  .note-item { background: #fff; border-radius: 6px; padding: 7px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-size: 11px; display: flex; gap: 8px; align-items: baseline; }
+  .note-icon { font-size: 13px; flex-shrink: 0; }
+  .note-name { font-weight: 600; white-space: nowrap; min-width: 70px; }
+  .note-text { color: #555; }
+  /* チーム分け */
+  .teams-container { max-width: 900px; margin: 0 auto; }
+  .teams-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .team-card { background: #fff; border-radius: 10px; padding: 12px 14px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  .team-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 2px solid #eee; }
+  .team-card-name { font-weight: 700; font-size: 14px; }
+  .team-card-tags { display: flex; gap: 3px; }
+  .team-tag { font-size: 8px; padding: 1px 5px; border-radius: 3px; font-weight: 600; }
+  .team-tag.walk { background: #E8F5E9; color: #2E7D32; }
+  .team-tag.puzzle { background: #FFF3E0; color: #E65100; }
+  .team-member { display: flex; align-items: center; gap: 6px; padding: 3px 0; font-size: 12px; }
+  .team-member .name { font-weight: 600; }
+  .team-member .dept { font-size: 10px; color: #999; }
+  .team-member .badge { font-size: 9px; padding: 1px 4px; border-radius: 3px; font-weight: 600; }
+  .badge.solver { background: #FFF3E0; color: #E65100; }
+  .badge.limited { background: #FFEBEE; color: #C62828; }
+
+  /* レスポンシブ：スマホ対応 */
+  @media (max-width: 768px) {
+    body { padding: 12px 8px; }
+    h1 { font-size: 18px; }
+    .subtitle { font-size: 11px; margin-bottom: 12px; }
+    .section-title { font-size: 14px; }
+    .section-sub { font-size: 10px; margin-bottom: 12px; }
+    .tabs { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; justify-content: flex-start; gap: 6px; }
+    .tab { font-size: 11px; padding: 6px 12px; white-space: nowrap; flex-shrink: 0; }
+    .buses { flex-direction: column; align-items: center; }
+    .bus-container { width: 100%; max-width: 320px; }
+    .bus { width: 100%; }
+    .seat { font-size: 8px; min-height: 24px; padding: 2px 1px; }
+    .seat.aux { font-size: 6px; min-height: 20px; }
+    .col-label { font-size: 7px; }
+    .row-label { font-size: 7px; }
+    .bus-title { font-size: 12px; }
+    .bus-title .sub { font-size: 9px; }
+    .legend { gap: 8px; margin-bottom: 12px; }
+    .legend-item { font-size: 10px; }
+    .room-grid { grid-template-columns: 1fr; }
+    .room-card .members { font-size: 11px; }
+    .room-card { padding: 8px 10px; }
+    .rooms-container h2 { font-size: 11px; }
+    .teams-grid { grid-template-columns: 1fr; gap: 8px; }
+    .team-card { padding: 10px 12px; }
+    .team-card-name { font-size: 13px; }
+    .team-member { font-size: 11px; padding: 2px 0; }
+    .team-member .badge { font-size: 8px; }
+    .notes-section { margin-top: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<h1>📝合宿チーム分け</h1>
+<p class="subtitle">Nstock春合宿2026 ／ 4月2日(木)〜3日(金)</p>
+
+<!-- タブ切り替え -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('outbound')">バス1日目往路</div>
+  <div class="tab" onclick="switchTab('outlet')">バス2日目往路</div>
+  <div class="tab" onclick="switchTab('return')">バス2日目復路</div>
+  <div class="tab" onclick="switchTab('rooms')">部屋割り</div>
+  <div class="tab" onclick="switchTab('teams')" id="teams-btn">レク</div>
+  <div class="tab" onclick="switchTab('majime')">真面目time</div>
+</div>
+
+<!-- ==================== 往路 ==================== -->
+<div id="outbound" class="tab-content active">
+
+<div class="section-title">往路</div>
+<div class="section-sub">東京駅 9:00発 → 小田原駅 11:15発 → ライムリゾート箱根 12:15着</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot tk"></div>東京駅発 37名</div>
+  <div class="legend-item"><div class="legend-dot od"></div>小田原駅発 23名</div>
+  <div class="legend-item"><div class="legend-dot crew"></div>レク/運営 ★</div>
+</div>
+
+<div class="buses">
+
+<!-- 東京駅発（1台） -->
+<div class="bus-container">
+  <div class="bus-title tokyo">東京駅発<span class="count">37名</span>
+    <span class="sub">大型バス（富士急）／ 8:45集合 9:00発</span>
+  </div>
+  <div class="bus">
+    <div class="bus-front"><div class="entrance">乗降口</div><div class="driver">運転席</div></div>
+    <div class="col-header"><div></div><div class="col-label">A窓</div><div class="col-label">B通路</div><div></div><div class="col-label">C通路</div><div class="col-label">D窓</div></div>
+    <div class="row"><div class="row-label">1</div><div class="seat tk crew">minmin</div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat tk crew">mizunuma</div><div class="seat tk crew">kim</div></div>
+    <div class="row"><div class="row-label">2</div><div class="seat tk crew">koni</div><div class="seat tk">mariko</div><div class="seat aux">補助</div><div class="seat tk">okupi</div><div class="seat tk">azusa.nose</div></div>
+    <div class="row"><div class="row-label">3</div><div class="seat tk">yumi</div><div class="seat tk">Junko</div><div class="seat aux">補助</div><div class="seat tk">yoshi-P</div><div class="seat tk">wadaben</div></div>
+    <div class="row"><div class="row-label">4</div><div class="seat tk">higashi</div><div class="seat tk">ryan</div><div class="seat aux">補助</div><div class="seat tk">muraki</div><div class="seat tk">wadayoshi</div></div>
+    <div class="row"><div class="row-label">5</div><div class="seat tk">satojun</div><div class="seat tk">koudon</div><div class="seat aux">補助</div><div class="seat tk">matano</div><div class="seat tk">kobasho</div></div>
+    <div class="row"><div class="row-label">6</div><div class="seat tk">jaga</div><div class="seat tk">Ryo</div><div class="seat aux">補助</div><div class="seat tk">nam</div><div class="seat tk">miyasho</div></div>
+    <div class="row"><div class="row-label">7</div><div class="seat tk">arima</div><div class="seat tk">kakkie</div><div class="seat aux">補助</div><div class="seat tk">joe</div><div class="seat tk">Rooo</div></div>
+    <div class="row"><div class="row-label">8</div><div class="seat tk">miyochan</div><div class="seat tk">goya</div><div class="seat aux">補助</div><div class="seat tk">maimai</div><div class="seat tk">massy</div></div>
+    <div class="row"><div class="row-label">9</div><div class="seat tk">kobaken</div><div class="seat tk">retu</div><div class="seat aux">補助</div><div class="seat tk">taichi</div><div class="seat tk">yagi</div></div>
+    <div class="row"><div class="row-label">10</div><div class="seat tk">koba</div><div class="seat tk">tanakiyo</div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">11</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="bus-back">◀ 後方 ▶</div>
+  </div>
+</div>
+
+<!-- 小田原駅発 -->
+<div class="bus-container">
+  <div class="bus-title odawara">小田原駅発<span class="count">23名</span>
+    <span class="sub">大型バス（箱根登山）／ 11:15発</span>
+  </div>
+  <div class="bus">
+    <div class="bus-front"><div class="entrance">乗降口</div><div class="driver">運転席</div></div>
+    <div class="col-header"><div></div><div class="col-label">A窓</div><div class="col-label">B通路</div><div></div><div class="col-label">C通路</div><div class="col-label">D窓</div></div>
+    <div class="row"><div class="row-label">1</div><div class="seat od crew">maniki</div><div class="seat od crew">sugiura</div><div class="seat aux">補助</div><div class="seat od crew">sasayan</div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">2</div><div class="seat od">muga</div><div class="seat od">oppa</div><div class="seat aux">補助</div><div class="seat od">kame</div><div class="seat od">utmy5</div></div>
+    <div class="row"><div class="row-label">3</div><div class="seat od">hosa</div><div class="seat od">natukifm</div><div class="seat aux">補助</div><div class="seat od">sawady</div><div class="seat od">smith</div></div>
+    <div class="row"><div class="row-label">4</div><div class="seat od">tsuno</div><div class="seat od">hasumin</div><div class="seat aux">補助</div><div class="seat od">shino</div><div class="seat od">michimani</div></div>
+    <div class="row"><div class="row-label">5</div><div class="seat od">macha</div><div class="seat od">takara</div><div class="seat aux">補助</div><div class="seat od">hiroya</div><div class="seat od">gashi</div></div>
+    <div class="row"><div class="row-label">6</div><div class="seat od">shima</div><div class="seat od">takashi</div><div class="seat aux">補助</div><div class="seat od">nono</div><div class="seat od">touyu</div></div>
+    <div class="row"><div class="row-label">7</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">8</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">9</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">10</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">11</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="bus-back">◀ 後方 ▶</div>
+  </div>
+</div>
+
+</div><!-- /buses -->
+
+
+</div><!-- /outbound -->
+
+<!-- ==================== アウトレット行き ==================== -->
+<div id="outlet" class="tab-content">
+
+<div class="section-title">2日目移動</div>
+<div class="section-sub">ライムリゾート箱根 9:30発 → 御殿場アウトレット 10:10着</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot tk"></div>1号車（富士急）30名</div>
+  <div class="legend-item"><div class="legend-dot t2"></div>2号車（箱根登山）30名</div>
+  <div class="legend-item"><div class="legend-dot crew"></div>運営 ★</div>
+</div>
+
+<div class="buses">
+
+<!-- 1号車（富士急） -->
+<div class="bus-container">
+  <div class="bus-title tokyo1">1号車<span class="count">30名</span>
+    <span class="sub">大型バス（富士急）／ 9:30発</span>
+  </div>
+  <div class="bus">
+    <div class="bus-front"><div class="entrance">乗降口</div><div class="driver">運転席</div></div>
+    <div class="col-header"><div></div><div class="col-label">A窓</div><div class="col-label">B通路</div><div></div><div class="col-label">C通路</div><div class="col-label">D窓</div></div>
+    <div class="row"><div class="row-label">1</div><div class="seat tk crew">minmin</div><div class="seat tk">takara</div><div class="seat aux">補助</div><div class="seat tk">sasayan</div><div class="seat tk">goya</div></div>
+    <div class="row"><div class="row-label">2</div><div class="seat tk">muga</div><div class="seat tk">Junko</div><div class="seat aux">補助</div><div class="seat tk">arima</div><div class="seat tk">hosa</div></div>
+    <div class="row"><div class="row-label">3</div><div class="seat tk">utmy5</div><div class="seat tk">sawady</div><div class="seat aux">補助</div><div class="seat tk">smith</div><div class="seat tk">Ryo</div></div>
+    <div class="row"><div class="row-label">4</div><div class="seat tk">nono</div><div class="seat tk">higashi</div><div class="seat aux">補助</div><div class="seat tk">wadaben</div><div class="seat tk">retu</div></div>
+    <div class="row"><div class="row-label">5</div><div class="seat tk">hiroya</div><div class="seat tk">miyochan</div><div class="seat aux">補助</div><div class="seat tk">okupi</div><div class="seat tk">maimai</div></div>
+    <div class="row"><div class="row-label">6</div><div class="seat tk">natukifm</div><div class="seat tk">kakkie</div><div class="seat aux">補助</div><div class="seat tk">matano</div><div class="seat tk">jaga</div></div>
+    <div class="row"><div class="row-label">7</div><div class="seat tk">gashi</div><div class="seat tk">mariko</div><div class="seat aux">補助</div><div class="seat tk">kobasho</div><div class="seat tk">taichi</div></div>
+    <div class="row"><div class="row-label">8</div><div class="seat tk">Rooo</div><div class="seat tk">nam</div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">9</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row" style="opacity:.5"><div class="row-label">10</div><div class="seat empty" style="font-size:7px;color:#999">🍺二日酔い</div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty" style="font-size:7px;color:#999">🍺二日酔い</div><div class="seat empty"></div></div>
+    <div class="row" style="opacity:.5"><div class="row-label">11</div><div class="seat empty" style="font-size:7px;color:#999">🍺二日酔い</div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty" style="font-size:7px;color:#999">🍺二日酔い</div><div class="seat empty"></div></div>
+    <div class="bus-back">◀ 後方 ▶</div>
+  </div>
+</div>
+
+<!-- 2号車（箱根登山） -->
+<div class="bus-container">
+  <div class="bus-title tokyo2">2号車<span class="count">30名</span>
+    <span class="sub">大型バス（箱根登山）／ 9:30発</span>
+  </div>
+  <div class="bus">
+    <div class="bus-front"><div class="entrance">乗降口</div><div class="driver">運転席</div></div>
+    <div class="col-header"><div></div><div class="col-label">A窓</div><div class="col-label">B通路</div><div></div><div class="col-label">C通路</div><div class="col-label">D窓</div></div>
+    <div class="row"><div class="row-label">1</div><div class="seat t2 crew">koni</div><div class="seat t2">oppa</div><div class="seat aux">補助</div><div class="seat t2">sugiura</div><div class="seat t2">shima</div></div>
+    <div class="row"><div class="row-label">2</div><div class="seat t2">maniki</div><div class="seat t2">mizunuma</div><div class="seat aux">補助</div><div class="seat t2">kim</div><div class="seat t2">yoshi-P</div></div>
+    <div class="row"><div class="row-label">3</div><div class="seat t2">tsuno</div><div class="seat t2">ryan</div><div class="seat aux">補助</div><div class="seat t2">kame</div><div class="seat t2">kobaken</div></div>
+    <div class="row"><div class="row-label">4</div><div class="seat t2">shino</div><div class="seat t2">muraki</div><div class="seat aux">補助</div><div class="seat t2">koudon</div><div class="seat t2">wadayoshi</div></div>
+    <div class="row"><div class="row-label">5</div><div class="seat t2">michimani</div><div class="seat t2">satojun</div><div class="seat aux">補助</div><div class="seat t2">touyu</div><div class="seat t2">hasumin</div></div>
+    <div class="row"><div class="row-label">6</div><div class="seat t2">takashi</div><div class="seat t2">massy</div><div class="seat aux">補助</div><div class="seat t2">azusa.nose</div><div class="seat t2">yumi</div></div>
+    <div class="row"><div class="row-label">7</div><div class="seat t2">joe</div><div class="seat t2">miyasho</div><div class="seat aux">補助</div><div class="seat t2">macha</div><div class="seat t2">koba</div></div>
+    <div class="row"><div class="row-label">8</div><div class="seat t2">tanakiyo</div><div class="seat t2">yagi</div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">9</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row" style="opacity:.5"><div class="row-label">10</div><div class="seat empty" style="font-size:7px;color:#999">🍺二日酔い</div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty" style="font-size:7px;color:#999">🍺二日酔い</div><div class="seat empty"></div></div>
+    <div class="row" style="opacity:.5"><div class="row-label">11</div><div class="seat empty" style="font-size:7px;color:#999">🍺二日酔い</div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty" style="font-size:7px;color:#999">🍺二日酔い</div><div class="seat empty"></div></div>
+    <div class="bus-back">◀ 後方 ▶</div>
+  </div>
+</div>
+
+</div><!-- /buses -->
+
+
+</div><!-- /outlet -->
+
+<!-- ==================== 復路 ==================== -->
+<div id="return" class="tab-content">
+
+<div class="section-title">復路</div>
+<div class="section-sub">御殿場アウトレット 14:30発 → 東京駅 17:00着 ／ 小田原駅 15:30着</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot tk"></div>東京行き1号車 19名</div>
+  <div class="legend-item"><div class="legend-dot t2"></div>東京行き2号車 18名</div>
+  <div class="legend-item"><div class="legend-dot od"></div>小田原行き 23名</div>
+  <div class="legend-item"><div class="legend-dot crew"></div>運営 ★</div>
+</div>
+
+<div class="buses">
+
+<!-- 東京行き1号車 -->
+<div class="bus-container">
+  <div class="bus-title tokyo1">東京行き 1号車<span class="count">19名</span>
+    <span class="sub">大型バス（富士急）</span>
+  </div>
+  <div class="bus">
+    <div class="bus-front"><div class="entrance">乗降口</div><div class="driver">運転席</div></div>
+    <div class="col-header"><div></div><div class="col-label">A窓</div><div class="col-label">B通路</div><div></div><div class="col-label">C通路</div><div class="col-label">D窓</div></div>
+    <div class="row"><div class="row-label">1</div><div class="seat tk crew">koni</div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">2</div><div class="seat tk">okupi</div><div class="seat tk">mariko</div><div class="seat aux">補助</div><div class="seat tk">koba</div><div class="seat tk">jaga</div></div>
+    <div class="row"><div class="row-label">3</div><div class="seat tk">arima</div><div class="seat tk">muraki</div><div class="seat aux">補助</div><div class="seat tk">miyochan</div><div class="seat tk">higashi</div></div>
+    <div class="row"><div class="row-label">4</div><div class="seat tk">maimai</div><div class="seat tk">yumi</div><div class="seat aux">補助</div><div class="seat tk">kobasho</div><div class="seat tk">hasumin</div></div>
+    <div class="row"><div class="row-label">5</div><div class="seat tk">mizunuma</div><div class="seat tk">yoshi-P</div><div class="seat aux">補助</div><div class="seat tk">Rooo</div><div class="seat tk">retu</div></div>
+    <div class="row"><div class="row-label">6</div><div class="seat tk">kobaken</div><div class="seat tk">satojun</div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">7</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">8</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">9</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">10</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">11</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="bus-back">◀ 後方 ▶</div>
+  </div>
+</div>
+
+<!-- 東京行き2号車 -->
+<div class="bus-container">
+  <div class="bus-title tokyo2">東京行き 2号車<span class="count">18名</span>
+    <span class="sub">大型バス（箱根登山）</span>
+  </div>
+  <div class="bus">
+    <div class="bus-front"><div class="entrance">乗降口</div><div class="driver">運転席</div></div>
+    <div class="col-header"><div></div><div class="col-label">A窓</div><div class="col-label">B通路</div><div></div><div class="col-label">C通路</div><div class="col-label">D窓</div></div>
+    <div class="row"><div class="row-label">1</div><div class="seat t2 crew">minmin</div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat t2">wadayoshi</div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">2</div><div class="seat t2">goya</div><div class="seat t2">kim</div><div class="seat aux">補助</div><div class="seat t2">kakkie</div><div class="seat t2">koudon</div></div>
+    <div class="row"><div class="row-label">3</div><div class="seat t2">yagi</div><div class="seat t2">Ryo</div><div class="seat aux">補助</div><div class="seat t2">ryan</div><div class="seat t2">Junko</div></div>
+    <div class="row"><div class="row-label">4</div><div class="seat t2">massy</div><div class="seat t2">matano</div><div class="seat aux">補助</div><div class="seat t2">joe</div><div class="seat t2">azusa.nose</div></div>
+    <div class="row"><div class="row-label">5</div><div class="seat t2">wadaben</div><div class="seat t2">tanakiyo</div><div class="seat aux">補助</div><div class="seat t2">miyasho</div><div class="seat t2">taichi</div></div>
+    <div class="row"><div class="row-label">6</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">7</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">8</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">9</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">10</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">11</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="bus-back">◀ 後方 ▶</div>
+  </div>
+</div>
+
+<!-- 小田原行き -->
+<div class="bus-container">
+  <div class="bus-title odawara">小田原行き<span class="count">23名</span>
+    <span class="sub">マイクロバス（箱根登山）</span>
+  </div>
+  <div class="bus">
+    <div class="bus-front"><div class="entrance">乗降口</div><div class="driver">運転席</div></div>
+    <div class="col-header"><div></div><div class="col-label">A窓</div><div class="col-label">B通路</div><div></div><div class="col-label">C通路</div><div class="col-label">D窓</div></div>
+    <div class="row"><div class="row-label">1</div><div class="seat od crew">sasayan</div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">2</div><div class="seat od">utmy5</div><div class="seat od">hosa</div><div class="seat aux">補助</div><div class="seat od">muga</div><div class="seat od">kame</div></div>
+    <div class="row"><div class="row-label">3</div><div class="seat od">tsuno</div><div class="seat od">nam</div><div class="seat aux">補助</div><div class="seat od">michimani</div><div class="seat od">oppa</div></div>
+    <div class="row"><div class="row-label">4</div><div class="seat od">maniki</div><div class="seat od">hiroya</div><div class="seat aux">補助</div><div class="seat od">takashi</div><div class="seat od">natukifm</div></div>
+    <div class="row"><div class="row-label">5</div><div class="seat od">touyu</div><div class="seat od">sawady</div><div class="seat aux">補助</div><div class="seat od">shino</div><div class="seat od">macha</div></div>
+    <div class="row"><div class="row-label">6</div><div class="seat od">gashi</div><div class="seat od">takara</div><div class="seat aux">補助</div><div class="seat od">nono</div><div class="seat od">shima</div></div>
+    <div class="row"><div class="row-label">7</div><div class="seat od">sugiura</div><div class="seat od">smith</div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">8</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">9</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">10</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="row"><div class="row-label">11</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
+    <div class="bus-back">◀ 後方 ▶</div>
+  </div>
+</div>
+
+</div><!-- /buses -->
+
+
+</div><!-- /return -->
+
+<!-- ==================== 部屋割り ==================== -->
+<div id="rooms" class="tab-content">
+
+<div class="rooms-container">
+<div class="section-title">🏨 部屋割り</div>
+<div class="section-sub">ライムリゾート箱根 ｜ スイート5室 + POD19室 = 24室 / 63名</div>
+
+<!-- スイート -->
+<h2 class="suite-header">スイートルーム（露天風呂付・2名1室）<span class="count">5室 10名</span></h2>
+<div class="room-grid">
+  <div class="room-card">
+    <span class="members">azusa.nose・maimai</span>
+    <span class="night-tags"><span class="night-tag n22">22時</span><span class="night-tag n23">22-23時</span></span>
+  </div>
+  <div class="room-card">
+    <span class="members">nam・natukifm</span>
+    <span class="night-tags"><span class="night-tag n22">22時</span><span class="night-tag n23">22-23時</span></span>
+  </div>
+  <div class="room-card">
+    <span class="members">miyasho・utmy5</span>
+    <span class="night-tags"><span class="night-tag alive">生き延びる</span> ×2</span>
+  </div>
+  <div class="room-card">
+    <span class="members">yoshi-P・shino</span>
+    <span class="night-tags"><span class="night-tag n22">22時</span><span class="night-tag n23">22-23時</span></span>
+  </div>
+  <div class="room-card">
+    <span class="members">hosa・miyochan</span>
+    <span class="night-tags"><span class="night-tag n23">22-23時</span> ×2</span>
+  </div>
+</div>
+
+<!-- 女性POD -->
+<h2 class="female-header">女性PODルーム<span class="count">3室 7名</span></h2>
+<div class="room-grid">
+  <div class="room-card">
+    <span class="members">hasumin・mariko・koni</span>
+    <span class="night-tags"><span class="night-tag alive">生き延びる</span><span class="night-tag n23">22-23時</span> ×2</span>
+  </div>
+  <div class="room-card">
+    <span class="members">junko・okupi</span>
+    <span class="night-tags"><span class="night-tag n23">22-23時</span><span class="night-tag n24">24時</span></span>
+  </div>
+  <div class="room-card">
+    <span class="members">yumi・tsuno</span>
+    <span class="night-tags"><span class="night-tag n22">22時</span><span class="night-tag n23">22-23時</span></span>
+  </div>
+</div>
+
+<!-- 男性POD -->
+<h2 class="male-header">男性PODルーム<span class="count">16室 46名</span></h2>
+<div class="room-grid">
+  <div class="room-card">
+    <span class="members">ryo・armin</span>
+    <span class="night-tags"><span class="night-tag n22">22時</span> ×2</span>
+  </div>
+  <div class="room-card">
+    <span class="members">muga・kim・smith</span>
+    <span class="night-tags"><span class="night-tag n22">22時</span><span class="night-tag n23">22-23時</span> ×2</span>
+  </div>
+  <div class="room-card">
+    <span class="members">higashi・wadayoshi・muraki</span>
+    <span class="night-tags"><span class="night-tag n23">22-23時</span><span class="night-tag n24">24時</span> ×2</span>
+  </div>
+  <div class="room-card">
+    <span class="members">gashi・sawady・macha</span>
+    <span class="night-tags"><span class="night-tag n23">22-23時</span> ×3</span>
+  </div>
+  <div class="room-card">
+    <span class="members">goya・mizunuma・sei</span>
+    <span class="night-tags"><span class="night-tag n23">22-23時</span> ×3</span>
+  </div>
+  <div class="room-card">
+    <span class="members">hiroya・arima・nono</span>
+    <span class="night-tags"><span class="night-tag n23">22-23時</span> ×3</span>
+  </div>
+  <div class="room-card">
+    <span class="members">sasayan・ryan・wadaben</span>
+    <span class="night-tags"><span class="night-tag n23">22-23時</span> ×3</span>
+  </div>
+  <div class="room-card">
+    <span class="members">shima・kakkie・tanakiyo</span>
+    <span class="night-tags"><span class="night-tag n23">22-23時</span><span class="night-tag n24">24時</span> ×2</span>
+  </div>
+  <div class="room-card">
+    <span class="members">jaga・kobaken・takashi</span>
+    <span class="night-tags"><span class="night-tag n24">24時</span> ×3</span>
+  </div>
+  <div class="room-card">
+    <span class="members">minmin・moru・maniki</span>
+    <span class="night-tags"><span class="night-tag n24">24時</span> ×3</span>
+  </div>
+  <div class="room-card">
+    <span class="members">michimani・massy・touyu</span>
+    <span class="night-tags"><span class="night-tag n24">24時</span> ×3</span>
+  </div>
+  <div class="room-card">
+    <span class="members">oppa・takara・koudon</span>
+    <span class="night-tags"><span class="night-tag n24">24時</span> ×3</span>
+  </div>
+  <div class="room-card">
+    <span class="members">rooo・matano・kobasho</span>
+    <span class="night-tags"><span class="night-tag alive">生き延びる</span><span class="night-tag n23">22-23時</span><span class="night-tag n24">24時</span></span>
+  </div>
+  <div class="room-card">
+    <span class="members">taro・taichi・sugiura</span>
+    <span class="night-tags"><span class="night-tag alive">生き延びる</span> ×3</span>
+  </div>
+  <div class="room-card">
+    <span class="members">joe・satojun・kame</span>
+    <span class="night-tags"><span class="night-tag alive">生き延びる</span> ×3</span>
+  </div>
+  <div class="room-card">
+    <span class="members">yagi・retu・koba</span>
+    <span class="night-tags"><span class="night-tag n24">24時</span><span class="night-tag alive">生き延びる</span> ×2</span>
+  </div>
+</div>
+
+
+</div><!-- /rooms-container -->
+</div><!-- /rooms -->
+
+<!-- ==================== チーム分け ==================== -->
+<div id="teams" class="tab-content">
+
+<div class="teams-container">
+<div class="section-title">2日目レクリエーション チーム分け</div>
+<div class="section-sub">10チーム × 6人 ＝ 60名</div>
+
+<div class="teams-grid">
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Team 1</span>
+    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
+  </div>
+  <div class="team-member"><span class="name">gashi</span><span class="dept">MktPR</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
+  <div class="team-member"><span class="name">okupi</span><span class="dept">STRAP</span><span class="badge limited">🦶セーブ</span></div>
+  <div class="team-member"><span class="name">miyasho</span><span class="dept">共通</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">Ryo</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">higashi</span><span class="dept">Corporate</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">natukifm</span><span class="dept">MktPR</span><span class="badge solver">🚶歩ける</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Team 2</span>
+    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
+  </div>
+  <div class="team-member"><span class="name">nono</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
+  <div class="team-member"><span class="name">yoshi-P</span><span class="dept">STRAP</span><span class="badge limited">🦶セーブ</span></div>
+  <div class="team-member"><span class="name">massy</span><span class="dept">Corporate</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">takara</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">Junko</span><span class="dept">MktPR</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">macha</span><span class="dept">STRAP</span><span class="badge solver">🚶歩ける</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Team 3</span>
+    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
+  </div>
+  <div class="team-member"><span class="name">matano</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
+  <div class="team-member"><span class="name">maniki</span><span class="dept">Corporate</span><span class="badge limited">🦶セーブ</span></div>
+  <div class="team-member"><span class="name">azusa.nose</span><span class="dept">共通</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">shima</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">joe</span><span class="dept">STRAP</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">utmy5</span><span class="dept">MktPR</span><span class="badge solver">🚶歩ける</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Team 4</span>
+    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
+  </div>
+  <div class="team-member"><span class="name">wadaben</span><span class="dept">Corporate</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
+  <div class="team-member"><span class="name">muga</span><span class="dept">SOPS</span><span class="badge limited">🦶セーブ</span></div>
+  <div class="team-member"><span class="name">Rooo</span><span class="dept">MktPR</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">tsuno</span><span class="dept">STRAP</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">taichi</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">smith</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Team 5</span>
+    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
+  </div>
+  <div class="team-member"><span class="name">ryan</span><span class="dept">STRAP</span><span class="badge limited">🦶セーブ</span><span class="badge solver">🧩得意</span></div>
+  <div class="team-member"><span class="name">koni</span><span class="dept">Corporate</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">sawady</span><span class="dept">STRAP</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">maimai</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">takashi</span><span class="dept">shareholders</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">nam</span><span class="dept">MktPR</span><span class="badge solver">🚶歩ける</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Team 6</span>
+    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
+  </div>
+  <div class="team-member"><span class="name">michimani</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
+  <div class="team-member"><span class="name">hasumin</span><span class="dept">Corporate</span><span class="badge limited">🦶セーブ</span></div>
+  <div class="team-member"><span class="name">jaga</span><span class="dept">共通</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">oppa</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">kakkie</span><span class="dept">STRAP</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">mariko</span><span class="dept">内定者</span><span class="badge solver">🚶歩ける</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Team 7</span>
+    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
+  </div>
+  <div class="team-member"><span class="name">sasayan</span><span class="dept">Corporate</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
+  <div class="team-member"><span class="name">yumi</span><span class="dept">共通</span><span class="badge limited">🦶セーブ</span></div>
+  <div class="team-member"><span class="name">kobaken</span><span class="dept">共通</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">retu</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">muraki</span><span class="dept">STRAP</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">goya</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Team 8</span>
+    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
+  </div>
+  <div class="team-member"><span class="name">koudon</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
+  <div class="team-member"><span class="name">arima</span><span class="dept">STRAP</span><span class="badge limited">🦶セーブ</span></div>
+  <div class="team-member"><span class="name">wadayoshi</span><span class="dept">Corporate</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">kim</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">shino</span><span class="dept">shareholders</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">kame</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Team 9</span>
+    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
+  </div>
+  <div class="team-member"><span class="name">sugiura</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
+  <div class="team-member"><span class="name">tanakiyo</span><span class="dept">STRAP</span><span class="badge limited">🦶セーブ</span></div>
+  <div class="team-member"><span class="name">minmin</span><span class="dept">MktPR</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">hiroya</span><span class="dept">Corporate</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">miyochan</span><span class="dept">STRAP</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">kobasho</span><span class="dept">内定者</span><span class="badge solver">🚶歩ける</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Team 10</span>
+    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
+  </div>
+  <div class="team-member"><span class="name">mizunuma</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
+  <div class="team-member"><span class="name">hosa</span><span class="dept">Corporate</span><span class="badge limited">🦶セーブ</span></div>
+  <div class="team-member"><span class="name">satojun</span><span class="dept">STRAP</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">touyu</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">yagi</span><span class="dept">STRAP</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-member"><span class="name">koba</span><span class="dept">SOPS</span><span class="badge solver">🚶歩ける</span></div>
+</div>
+
+</div><!-- /teams-grid -->
+
+
+</div><!-- /teams-container -->
+</div><!-- /teams -->
+
+<!-- ==================== まじめtime ==================== -->
+<div id="majime" class="tab-content">
+
+<div class="teams-container">
+<div class="section-title">まじめtime チーム分け</div>
+<div class="section-sub">3人1組 × 18グループ + 4人1組 × 2グループ ＝ 62名 ｜ Allhands内ワークショップ</div>
+
+<div class="teams-grid">
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 1</span>
+  </div>
+  <div class="team-member"><span class="name">minmin</span><span class="dept">MktPR / マーケティングPR</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">michimani</span><span class="dept">SOPS / エンジニア</span></div>
+  <div class="team-member"><span class="name">hiroya</span><span class="dept">Corporate / 経理</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 2</span>
+  </div>
+  <div class="team-member"><span class="name">koni</span><span class="dept">Corporate / セクレタリー</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">mariko</span><span class="dept">内定者</span></div>
+  <div class="team-member"><span class="name">takara</span><span class="dept">SOPS / セールス</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 3</span>
+  </div>
+  <div class="team-member"><span class="name">jaga</span><span class="dept">共通 / エンジニア</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">okupi</span><span class="dept">STRAP / 営業責任者</span></div>
+  <div class="team-member"><span class="name">natukifm</span><span class="dept">MktPR / エディター</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 4</span>
+  </div>
+  <div class="team-member"><span class="name">sasayan</span><span class="dept">Corporate / コーポレート責任者</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">Ryo</span><span class="dept">SOPS / エンジニア</span></div>
+  <div class="team-member"><span class="name">yagi</span><span class="dept">STRAP / デザイナー</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 5</span>
+  </div>
+  <div class="team-member"><span class="name">miyasho</span><span class="dept">共通 / CEO</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">kame</span><span class="dept">SOPS / セールス</span></div>
+  <div class="team-member"><span class="name">sawady</span><span class="dept">STRAP / エンジニア</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 6</span>
+  </div>
+  <div class="team-member"><span class="name">moru</span><span class="dept">SOPS / セールス</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">higashi</span><span class="dept">Corporate / CE</span></div>
+  <div class="team-member"><span class="name">arima</span><span class="dept">STRAP / エンジニア</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 7</span>
+  </div>
+  <div class="team-member"><span class="name">satojun</span><span class="dept">STRAP / PdM</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">smith</span><span class="dept">SOPS / デザイナー</span></div>
+  <div class="team-member"><span class="name">hasumin</span><span class="dept">Corporate / 人事</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 8</span>
+  </div>
+  <div class="team-member"><span class="name">gashi</span><span class="dept">MktPR / マーケティングPR</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">nono</span><span class="dept">SOPS / エンジニア</span></div>
+  <div class="team-member"><span class="name">tanakiyo</span><span class="dept">STRAP / エンジニア</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 9</span>
+  </div>
+  <div class="team-member"><span class="name">tsuno</span><span class="dept">STRAP / 内部監査</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">muga</span><span class="dept">SOPS / QA</span></div>
+  <div class="team-member"><span class="name">Junko</span><span class="dept">MktPR / 広報</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 10</span>
+  </div>
+  <div class="team-member"><span class="name">massy</span><span class="dept">Corporate / 労務</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">retu</span><span class="dept">SOPS / エンジニア</span></div>
+  <div class="team-member"><span class="name">miyochan</span><span class="dept">STRAP / BizDev</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 11</span>
+  </div>
+  <div class="team-member"><span class="name">taro</span><span class="dept">STRAP / BizDev</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">yumi</span><span class="dept">共通 / ドメインEX</span></div>
+  <div class="team-member"><span class="name">sugiura</span><span class="dept">SOPS / CS</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 12</span>
+  </div>
+  <div class="team-member"><span class="name">oppa</span><span class="dept">SOPS / BizDev</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">muraki</span><span class="dept">STRAP / 内部管理</span></div>
+  <div class="team-member"><span class="name">Rooo</span><span class="dept">MktPR / デザイナー</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 13</span>
+  </div>
+  <div class="team-member"><span class="name">ryan</span><span class="dept">SOPS / エンジニア</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">azusa.nose</span><span class="dept">共通 / ドメインEX</span></div>
+  <div class="team-member"><span class="name">wadayoshi</span><span class="dept">Corporate / CE</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 14</span>
+  </div>
+  <div class="team-member"><span class="name">shima</span><span class="dept">SOPS / エンジニア</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">nam</span><span class="dept">MktPR / デザイナー</span></div>
+  <div class="team-member"><span class="name">macha</span><span class="dept">NWA / PdM</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 15</span>
+  </div>
+  <div class="team-member"><span class="name">matano</span><span class="dept">SOPS / エンジニア</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">kobaken</span><span class="dept">共通 / アドバイザー</span></div>
+  <div class="team-member"><span class="name">touyu</span><span class="dept">SOPS / エンジニア</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 16</span>
+  </div>
+  <div class="team-member"><span class="name">kakkie</span><span class="dept">STRAP / エンジニア</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">goya</span><span class="dept">SOPS / デザイナー</span></div>
+  <div class="team-member"><span class="name">hosa</span><span class="dept">Corporate / 法務</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 17</span>
+  </div>
+  <div class="team-member"><span class="name">koba</span><span class="dept">SOPS / PdM</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">wadaben</span><span class="dept">Corporate / 法務</span></div>
+  <div class="team-member"><span class="name">shino</span><span class="dept">SH / BizDev</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 18</span>
+  </div>
+  <div class="team-member"><span class="name">utmy5</span><span class="dept">Corporate / デザイナー</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">taichi</span><span class="dept">SOPS / セールス</span></div>
+  <div class="team-member"><span class="name">maniki</span><span class="dept">Corporate / 人事</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 19</span>
+    <div class="team-card-tags"><span class="team-tag walk">4人</span></div>
+  </div>
+  <div class="team-member"><span class="name">joe</span><span class="dept">STRAP / BizDev</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">kim</span><span class="dept">SOPS / デザイナー</span></div>
+  <div class="team-member"><span class="name">takashi</span><span class="dept">SH / PdM</span></div>
+  <div class="team-member"><span class="name">maimai</span><span class="dept">SOPS / CS</span></div>
+</div>
+
+<div class="team-card">
+  <div class="team-card-header">
+    <span class="team-card-name">Group 20</span>
+    <div class="team-card-tags"><span class="team-tag walk">4人</span></div>
+  </div>
+  <div class="team-member"><span class="name">koudon</span><span class="dept">SOPS / CS</span><span class="badge solver">⚡ファシリ</span></div>
+  <div class="team-member"><span class="name">mizunuma</span><span class="dept">SOPS / エンジニア</span></div>
+  <div class="team-member"><span class="name">kobasho</span><span class="dept">内定者</span></div>
+  <div class="team-member"><span class="name">yoshi-P</span><span class="dept">STRAP / 内部管理</span></div>
+</div>
+
+</div><!-- /teams-grid -->
+
+
+</div><!-- /teams-container -->
+</div><!-- /majime -->
+
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  document.querySelector(`.tab[onclick*="${tab}"]`).classList.add('active');
+}
+</script>
+
+</body>
+</html>
