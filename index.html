@@ -172,6 +172,23 @@ h1 { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 4px; 
 .badge.solver { background: #FFF3E0; color: #E65100; }
 .badge.limited { background: #FFEBEE; color: #C62828; }
 
+/* ディナーテーブル */
+.dinner-container { max-width: 900px; margin: 0 auto; }
+.dinner-section-title { text-align: center; font-size: 14px; font-weight: 700; color: #444; margin-bottom: 4px; }
+.dinner-section-sub { text-align: center; font-size: 11px; color: #888; margin-bottom: 16px; }
+.dinner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin-bottom: 16px; }
+.dinner-table-card { background: #fff; border-radius: 12px; padding: 14px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.dinner-table-card .dt-header { font-size: 13px; font-weight: 700; margin-bottom: 10px; text-align: center; color: #333; }
+.dinner-table-card .dt-header .dt-num { display: inline-block; background: #333; color: #fff; border-radius: 4px; padding: 1px 8px; font-size: 11px; margin-right: 4px; }
+.dt-layout { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.dt-row { display: flex; gap: 6px; justify-content: center; }
+.dt-seat { background: #e8f4fd; border: 1.5px solid #4a9ece; color: #2b6c99; border-radius: 6px; padding: 5px 8px; font-size: 10px; font-weight: 600; text-align: center; min-width: 60px; }
+.dt-seat.leader { background: #fff3e0; border-color: #e8a838; color: #8a6318; position: relative; }
+.dt-seat.leader::after { content: '★'; position: absolute; top: -1px; right: 2px; font-size: 6px; }
+.dt-table-img { width: 80%; max-width: 180px; height: 28px; background: linear-gradient(135deg, #8B6914, #C4972A); border-radius: 14px; margin: 4px 0; display: flex; align-items: center; justify-content: center; }
+.dt-table-img span { font-size: 8px; color: rgba(255,255,255,.7); font-weight: 600; letter-spacing: 1px; }
+.dt-head-seat { margin-bottom: 2px; }
+
 /* レスポンシブ */
 @media (max-width: 768px) {
   body { padding: 12px 8px; }
@@ -203,6 +220,7 @@ h1 { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 4px; 
   .team-member { font-size: 11px; padding: 2px 0; }
   .team-member .badge { font-size: 8px; }
   .festival-grid { grid-template-columns: 1fr; }
+  .dinner-grid { grid-template-columns: 1fr; }
   .tl-time { width: 44px; font-size: 12px; }
 }
 </style>
@@ -232,6 +250,7 @@ h1 { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 4px; 
   <div class="sub-tab" data-tab="outlet">バス2日目往路</div>
   <div class="sub-tab" data-tab="return">バス2日目復路</div>
   <div class="sub-tab" data-tab="rooms">部屋割り</div>
+  <div class="sub-tab" data-tab="dinner">ディナー</div>
   <div class="sub-tab" data-tab="teams">レク</div>
   <div class="sub-tab" data-tab="majime">真面目time</div>
 </div>
@@ -1162,6 +1181,111 @@ h1 { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 4px; 
 
 </div><!-- /rooms-container -->
 </div><!-- /rooms -->
+
+<!-- ディナー -->
+<div id="dinner" class="tab-content">
+<div class="dinner-container">
+
+<div class="dinner-section-title">1日目ディナー チーム分け</div>
+<div class="dinner-section-sub">18:00〜 ビュッフェ+BBQ ／ ★=リーダー</div>
+
+<div class="dinner-grid">
+
+<div class="dinner-table-card">
+  <div class="dt-header"><span class="dt-num">1</span>7人</div>
+  <div class="dt-layout">
+    <div class="dt-row"><div class="dt-seat leader">muraki</div><div class="dt-seat">nam</div><div class="dt-seat">touyu</div></div>
+    <div class="dt-table-img"><span>TABLE</span></div>
+    <div class="dt-row"><div class="dt-seat">koudon</div><div class="dt-seat">okupi</div><div class="dt-seat">goya</div></div>
+    <div class="dt-head-seat"><div class="dt-seat">nono</div></div>
+  </div>
+</div>
+
+<div class="dinner-table-card">
+  <div class="dt-header"><span class="dt-num">2</span>7人</div>
+  <div class="dt-layout">
+    <div class="dt-row"><div class="dt-seat leader">shino</div><div class="dt-seat">koba</div><div class="dt-seat">azusa.nose</div></div>
+    <div class="dt-table-img"><span>TABLE</span></div>
+    <div class="dt-row"><div class="dt-seat">takara</div><div class="dt-seat">miyochan</div><div class="dt-seat">kakkie</div></div>
+    <div class="dt-head-seat"><div class="dt-seat">sugiura</div></div>
+  </div>
+</div>
+
+<div class="dinner-table-card">
+  <div class="dt-header"><span class="dt-num">3</span>6人</div>
+  <div class="dt-layout">
+    <div class="dt-row"><div class="dt-seat leader">taichi</div><div class="dt-seat">kobasho</div><div class="dt-seat">natukifm</div></div>
+    <div class="dt-table-img"><span>TABLE</span></div>
+    <div class="dt-row"><div class="dt-seat">arima</div><div class="dt-seat">oppa</div><div class="dt-seat">Ryo</div></div>
+  </div>
+</div>
+
+<div class="dinner-table-card">
+  <div class="dt-header"><span class="dt-num">4</span>6人</div>
+  <div class="dt-layout">
+    <div class="dt-row"><div class="dt-seat leader">wadayoshi</div><div class="dt-seat">satojun</div><div class="dt-seat">jaga</div></div>
+    <div class="dt-table-img"><span>TABLE</span></div>
+    <div class="dt-row"><div class="dt-seat">koni</div><div class="dt-seat">utmy5</div><div class="dt-seat">yoshi-P</div></div>
+  </div>
+</div>
+
+<div class="dinner-table-card">
+  <div class="dt-header"><span class="dt-num">5</span>6人</div>
+  <div class="dt-layout">
+    <div class="dt-row"><div class="dt-seat leader">macha</div><div class="dt-seat">wadaben</div><div class="dt-seat">yumi</div></div>
+    <div class="dt-table-img"><span>TABLE</span></div>
+    <div class="dt-row"><div class="dt-seat">kame</div><div class="dt-seat">Rooo</div><div class="dt-seat">higashi</div></div>
+  </div>
+</div>
+
+<div class="dinner-table-card">
+  <div class="dt-header"><span class="dt-num">6</span>6人</div>
+  <div class="dt-layout">
+    <div class="dt-row"><div class="dt-seat leader">retu</div><div class="dt-seat">moru</div><div class="dt-seat">tsuno</div></div>
+    <div class="dt-table-img"><span>TABLE</span></div>
+    <div class="dt-row"><div class="dt-seat">joe</div><div class="dt-seat">minmin</div><div class="dt-seat">Junko</div></div>
+  </div>
+</div>
+
+<div class="dinner-table-card">
+  <div class="dt-header"><span class="dt-num">7</span>6人</div>
+  <div class="dt-layout">
+    <div class="dt-row"><div class="dt-seat leader">mariko</div><div class="dt-seat">tanakiyo</div><div class="dt-seat">maniki</div></div>
+    <div class="dt-table-img"><span>TABLE</span></div>
+    <div class="dt-row"><div class="dt-seat">sawady</div><div class="dt-seat">mizunuma</div><div class="dt-seat">muga</div></div>
+  </div>
+</div>
+
+<div class="dinner-table-card">
+  <div class="dt-header"><span class="dt-num">8</span>6人</div>
+  <div class="dt-layout">
+    <div class="dt-row"><div class="dt-seat leader">smith</div><div class="dt-seat">kobaken</div><div class="dt-seat">ryan</div></div>
+    <div class="dt-table-img"><span>TABLE</span></div>
+    <div class="dt-row"><div class="dt-seat">miyasho</div><div class="dt-seat">massy</div><div class="dt-seat">hiroya</div></div>
+  </div>
+</div>
+
+<div class="dinner-table-card">
+  <div class="dt-header"><span class="dt-num">9</span>6人</div>
+  <div class="dt-layout">
+    <div class="dt-row"><div class="dt-seat leader">takashi</div><div class="dt-seat">michimani</div><div class="dt-seat">matano</div></div>
+    <div class="dt-table-img"><span>TABLE</span></div>
+    <div class="dt-row"><div class="dt-seat">yagi</div><div class="dt-seat">gashi</div><div class="dt-seat">taro</div></div>
+  </div>
+</div>
+
+<div class="dinner-table-card">
+  <div class="dt-header"><span class="dt-num">10</span>6人</div>
+  <div class="dt-layout">
+    <div class="dt-row"><div class="dt-seat leader">maimai</div><div class="dt-seat">kim</div><div class="dt-seat">hosa</div></div>
+    <div class="dt-table-img"><span>TABLE</span></div>
+    <div class="dt-row"><div class="dt-seat">hasumin</div><div class="dt-seat">shima</div><div class="dt-seat">sasayan</div></div>
+  </div>
+</div>
+
+</div><!-- /dinner-grid -->
+</div><!-- /dinner-container -->
+</div><!-- /dinner -->
 
 <!-- レク -->
 <div id="teams" class="tab-content">
