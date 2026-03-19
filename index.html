@@ -17,7 +17,7 @@
 <meta name="apple-mobile-web-app-title" content="合宿2026春">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f0f2f5; padding: 16px 12px 80px; color: #1a1a2e; }
+body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f0f2f5; padding: 16px 12px; color: #1a1a2e; }
 h1 { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 4px; }
 .subtitle { text-align: center; font-size: 13px; color: #666; margin-bottom: 16px; }
 
@@ -227,25 +227,27 @@ h1 { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 4px; 
 </head>
 <body>
 
-<h1>Nstock春合宿2026</h1>
-<p class="subtitle">4月2日(木)〜3日(金) ／ ライムリゾート箱根</p>
+<h1>合宿チーム分け</h1>
+<p class="subtitle">Nstock春合宿2026 ／ 4月2日(木)〜3日(金)</p>
 
-<!-- ===== ボトムナビ ===== -->
+<!-- ===== ボトムナビ（公開時に復活） ===== -->
+<!--
 <nav class="main-tabs">
-  <div class="main-tab active" onclick="switchMain('timeline')"><span class="tab-icon">&#128197;</span>タイムライン</div>
+  <div class="main-tab" onclick="switchMain('timeline')"><span class="tab-icon">&#128197;</span>タイムライン</div>
   <div class="main-tab" onclick="switchMain('festival')"><span class="tab-icon">&#127881;</span>フェスティバル</div>
-  <div class="main-tab" onclick="switchMain('team')"><span class="tab-icon">&#128101;</span>チーム分け</div>
+  <div class="main-tab active" onclick="switchMain('team')"><span class="tab-icon">&#128101;</span>チーム分け</div>
 </nav>
+-->
 
-<!-- ===== サブタブ（タイムライン用） ===== -->
-<div class="sub-tabs" id="tl-sub-tabs" style="display:flex">
+<!-- ===== サブタブ（タイムライン用・公開時に復活） ===== -->
+<div class="sub-tabs" id="tl-sub-tabs" style="display:none">
   <div class="sub-tab active" data-tab="tl-tokyo" style="border-color:#4a9ece">東京発→東京着</div>
   <div class="sub-tab" data-tab="tl-odawara-tokyo" style="border-color:#e8a838">小田原発→東京着</div>
   <div class="sub-tab" data-tab="tl-odawara" style="border-color:#b8860b">小田原発→小田原着</div>
 </div>
 
 <!-- ===== サブタブ（チーム分け用） ===== -->
-<div class="sub-tabs" id="sub-tabs" style="display:none">
+<div class="sub-tabs" id="sub-tabs" style="display:flex">
   <div class="sub-tab active" data-tab="outbound">バス1日目往路</div>
   <div class="sub-tab" data-tab="outlet">バス2日目往路</div>
   <div class="sub-tab" data-tab="return">バス2日目復路</div>
@@ -258,7 +260,7 @@ h1 { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 4px; 
 <!-- ============================================================ -->
 <!--                 タイムライン: 東京発→東京着                  -->
 <!-- ============================================================ -->
-<div id="tl-tokyo" class="tab-content active">
+<div id="tl-tokyo" class="tab-content">
 <div class="timeline-container">
 
 <div class="day-header day1-header">DAY 1 — 4/2(木)</div>
@@ -929,7 +931,7 @@ h1 { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 4px; 
 <!-- ============================================================ -->
 
 <!-- 往路 -->
-<div id="outbound" class="tab-content">
+<div id="outbound" class="tab-content active">
 
 <div class="legend">
   <div class="legend-item"><div class="legend-dot tk"></div>東京駅発 37名</div>
