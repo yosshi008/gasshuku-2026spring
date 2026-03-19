@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>合宿チーム分け — Nstock春合宿2026</title>
-<meta property="og:title" content="📝 合宿チーム分け — Nstock春合宿2026">
-<meta property="og:description" content="4/2-3 ライムリゾート箱根 ｜ バス座席・部屋割り・レクチーム・まじめtime">
+<title>Nstock春合宿2026</title>
+<meta property="og:title" content="Nstock春合宿2026">
+<meta property="og:description" content="4/2-3 ライムリゾート箱根 ｜ タイムライン・フェスティバル・チーム分け">
 <meta property="og:image" content="https://yosshi008.github.io/gasshuku-2026spring/ogp.png">
 <meta property="og:url" content="https://yosshi008.github.io/gasshuku-2026spring/">
 <meta property="og:type" content="website">
@@ -16,179 +16,882 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="合宿2026春">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f0f2f5; padding: 24px 12px; color: #1a1a2e; }
-  h1 { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 4px; }
-  .subtitle { text-align: center; font-size: 13px; color: #666; margin-bottom: 16px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif; background: #f0f2f5; padding: 16px 12px 80px; color: #1a1a2e; }
+h1 { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.subtitle { text-align: center; font-size: 13px; color: #666; margin-bottom: 16px; }
 
-  /* タブ */
-  .tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; }
-  .tab { padding: 8px 24px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; border: 2px solid #ccc; background: #fff; color: #666; transition: all .2s; }
-  .tab:hover { border-color: #999; }
-  .tab.active { background: #333; color: #fff; border-color: #333; }
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
+/* ===== ボトムナビ（大タブ） ===== */
+.main-tabs { position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: center; gap: 0; background: #fff; border-top: 1px solid #ddd; box-shadow: 0 -2px 10px rgba(0,0,0,.08); padding: 0; margin: 0; }
+.main-tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 8px 4px 6px; font-size: 11px; font-weight: 600; cursor: pointer; border: none; background: transparent; color: #999; transition: all .15s; user-select: none; border-top: 2px solid transparent; max-width: 160px; }
+.main-tab .tab-icon { font-size: 20px; line-height: 1; }
+.main-tab:hover { color: #666; }
+.main-tab.active { color: #333; border-top-color: #333; }
+.main-tab.active .tab-icon { transform: scale(1.1); }
 
-  .section-title { text-align: center; font-size: 16px; font-weight: 700; color: #444; margin-bottom: 4px; }
-  .section-sub { text-align: center; font-size: 12px; color: #888; margin-bottom: 16px; }
+/* ===== サブタブ ===== */
+.sub-tabs { display: flex; justify-content: center; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+.sub-tab { padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1.5px solid #ddd; background: #fff; color: #888; transition: all .2s; user-select: none; }
+.sub-tab:hover { border-color: #aaa; }
+.sub-tab.active { background: #555; color: #fff; border-color: #555; }
 
-  .buses { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; align-items: flex-start; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
 
-  .bus-container { flex-shrink: 0; }
-  .bus-title { text-align: center; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
-  .bus-title .count { font-weight: 400; color: #888; font-size: 12px; margin-left: 4px; }
-  .bus-title .sub { display: block; font-size: 10px; font-weight: 400; color: #999; }
-  .bus-title.tokyo { color: #2b6c99; }
-  .bus-title.tokyo1 { color: #2b6c99; }
-  .bus-title.tokyo2 { color: #6a4c93; }
-  .bus-title.odawara { color: #b8860b; }
+/* ===== タイムライン ===== */
+.timeline-container { max-width: 600px; margin: 0 auto; }
+.day-header { font-size: 16px; font-weight: 700; text-align: center; margin: 20px 0 12px; padding: 8px 16px; border-radius: 8px; color: #fff; }
+.day-header:first-child { margin-top: 0; }
+.day1-header { background: linear-gradient(135deg, #2b6c99, #4a9ece); }
+.day2-header { background: linear-gradient(135deg, #6a4c93, #8a6cce); }
 
-  .bus { background: #fff; border-radius: 36px 36px 14px 14px; box-shadow: 0 3px 16px rgba(0,0,0,.10); padding: 14px 10px 18px; width: 290px; position: relative; border: 2.5px solid #ccc; }
+.tl-item { display: flex; gap: 12px; margin-bottom: 2px; position: relative; }
+.tl-time { flex-shrink: 0; width: 52px; text-align: right; font-size: 13px; font-weight: 700; color: #555; padding-top: 10px; }
+.tl-dot { flex-shrink: 0; width: 14px; display: flex; flex-direction: column; align-items: center; padding-top: 14px; }
+.tl-dot::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: #4a9ece; flex-shrink: 0; }
+.tl-dot::after { content: ''; width: 2px; flex: 1; background: #ddd; margin-top: 2px; }
+.tl-item:last-child .tl-dot::after { display: none; }
+.tl-item.day2 .tl-dot::before { background: #8a6cce; }
+.tl-item.highlight .tl-dot::before { background: #e74c3c; width: 12px; height: 12px; }
 
-  .bus-front { display: flex; justify-content: space-between; align-items: center; padding: 0 6px 8px; border-bottom: 2px dashed #ddd; margin-bottom: 4px; }
-  .driver { background: #333; color: #fff; font-size: 9px; font-weight: 600; padding: 3px 8px; border-radius: 5px; }
-  .entrance { font-size: 9px; font-weight: 600; color: #e74c3c; }
-  .entrance::before { content: '▶ '; }
+.tl-card { flex: 1; background: #fff; border-radius: 8px; padding: 10px 12px; box-shadow: 0 1px 4px rgba(0,0,0,.06); margin-bottom: 6px; }
+.tl-card-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+.tl-card-detail { font-size: 11px; color: #666; line-height: 1.5; }
+.tl-card-detail .tag { display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 3px; font-weight: 600; margin-right: 2px; background: #e8f4fd; color: #2b6c99; }
+.tl-card.secret { border: 2px dashed #e8a838; background: #fffbe6; }
 
-  .col-header { display: grid; grid-template-columns: 20px 1fr 1fr 32px 1fr 1fr; gap: 2px; align-items: center; margin-bottom: 2px; padding: 0 0 3px; border-bottom: 1px solid #eee; }
-  .col-label { text-align: center; font-size: 8px; font-weight: 700; color: #999; letter-spacing: 0.5px; }
+/* 持ち物リスト */
+.packing-section { max-width: 600px; margin: 24px auto 0; }
+.packing-title { font-size: 14px; font-weight: 700; text-align: center; margin-bottom: 10px; }
+.packing-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.packing-card { background: #fff; border-radius: 8px; padding: 10px 14px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+.packing-card h4 { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+.packing-card.must h4 { color: #c33; }
+.packing-card.optional h4 { color: #2b6c99; }
+.packing-card.provided h4 { color: #2E7D32; }
+.packing-card ul { list-style: none; font-size: 11px; line-height: 1.8; color: #555; }
+.packing-card ul li::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+.packing-card.must ul li::before { background: #c33; }
+.packing-card.optional ul li::before { background: #4a9ece; }
+.packing-card.provided ul li::before { background: #2E7D32; }
 
-  .row { display: grid; grid-template-columns: 20px 1fr 1fr 32px 1fr 1fr; gap: 2px; align-items: center; margin-bottom: 2px; }
-  .row-label { font-size: 8px; color: #aaa; text-align: center; font-weight: 600; }
+/* ===== フェスティバル ===== */
+.festival-container { max-width: 700px; margin: 0 auto; }
+.festival-header { text-align: center; margin-bottom: 16px; }
+.festival-header h2 { font-size: 18px; font-weight: 700; }
+.festival-header p { font-size: 12px; color: #888; }
+.festival-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; margin-bottom: 20px; }
+.festival-card { background: #fff; border-radius: 10px; padding: 12px 14px; box-shadow: 0 2px 8px rgba(0,0,0,.08); border-left: 4px solid #4a9ece; }
+.festival-card.chill { border-left-color: #2E7D32; }
+.festival-card .fc-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.festival-card .fc-owner { font-size: 11px; color: #888; }
+.festival-card .fc-owner span { font-weight: 600; color: #555; }
+.floor-maps { margin-top: 16px; }
+.floor-maps h3 { font-size: 13px; font-weight: 700; text-align: center; margin-bottom: 8px; color: #444; }
+.floor-maps img { width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.1); margin-bottom: 12px; }
 
-  .seat { border-radius: 5px; padding: 4px 1px; text-align: center; font-size: 9px; font-weight: 600; min-height: 28px; display: flex; align-items: center; justify-content: center; line-height: 1.2; transition: transform .1s; }
-  .seat:hover { transform: scale(1.06); z-index: 1; }
+/* ===== バス・部屋・チーム（既存） ===== */
+.section-title { text-align: center; font-size: 16px; font-weight: 700; color: #444; margin-bottom: 4px; }
+.section-sub { text-align: center; font-size: 12px; color: #888; margin-bottom: 16px; }
+.buses { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; align-items: flex-start; }
+.bus-container { flex-shrink: 0; }
+.bus-title { text-align: center; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.bus-title .count { font-weight: 400; color: #888; font-size: 12px; margin-left: 4px; }
+.bus-title .sub { display: block; font-size: 10px; font-weight: 400; color: #999; }
+.bus-title.tokyo { color: #2b6c99; }
+.bus-title.tokyo1 { color: #2b6c99; }
+.bus-title.tokyo2 { color: #6a4c93; }
+.bus-title.odawara { color: #b8860b; }
+.bus { background: #fff; border-radius: 36px 36px 14px 14px; box-shadow: 0 3px 16px rgba(0,0,0,.10); padding: 14px 10px 18px; width: 290px; position: relative; border: 2.5px solid #ccc; }
+.bus-front { display: flex; justify-content: space-between; align-items: center; padding: 0 6px 8px; border-bottom: 2px dashed #ddd; margin-bottom: 4px; }
+.driver { background: #333; color: #fff; font-size: 9px; font-weight: 600; padding: 3px 8px; border-radius: 5px; }
+.entrance { font-size: 9px; font-weight: 600; color: #e74c3c; }
+.entrance::before { content: '▶ '; }
+.col-header { display: grid; grid-template-columns: 20px 1fr 1fr 32px 1fr 1fr; gap: 2px; align-items: center; margin-bottom: 2px; padding: 0 0 3px; border-bottom: 1px solid #eee; }
+.col-label { text-align: center; font-size: 8px; font-weight: 700; color: #999; letter-spacing: 0.5px; }
+.row { display: grid; grid-template-columns: 20px 1fr 1fr 32px 1fr 1fr; gap: 2px; align-items: center; margin-bottom: 2px; }
+.row-label { font-size: 8px; color: #aaa; text-align: center; font-weight: 600; }
+.seat { border-radius: 5px; padding: 4px 1px; text-align: center; font-size: 9px; font-weight: 600; min-height: 28px; display: flex; align-items: center; justify-content: center; line-height: 1.2; transition: transform .1s; }
+.seat:hover { transform: scale(1.06); z-index: 1; }
+.seat.tk { background: #e8f4fd; border: 1.5px solid #4a9ece; color: #2b6c99; }
+.seat.t2 { background: #f0e8fd; border: 1.5px solid #8a6cce; color: #5a3c93; }
+.seat.od { background: #fef3e2; border: 1.5px solid #e8a838; color: #8a6318; }
+.seat.empty { background: #fafafa; border: 1.5px solid #e0e0e0; color: #ccc; }
+.seat.aux { background: #f5f5f5; border: 1.5px dashed #ccc; color: #bbb; font-size: 7px; min-height: 22px; }
+.seat.crew { position: relative; }
+.seat.crew::after { content: '★'; position: absolute; top: 0px; right: 1px; font-size: 6px; }
+.bus-back { border-top: 2px dashed #ddd; margin-top: 6px; padding-top: 4px; text-align: center; font-size: 9px; color: #aaa; }
+.legend { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; }
+.legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+.legend-dot.tk { background: #e8f4fd; border: 2px solid #4a9ece; }
+.legend-dot.t2 { background: #f0e8fd; border: 2px solid #8a6cce; }
+.legend-dot.od { background: #fef3e2; border: 2px solid #e8a838; }
+.legend-dot.crew { background: #fff; border: 2px solid #999; position: relative; }
+.legend-dot.crew::after { content: '★'; position: absolute; top: -2px; right: -2px; font-size: 6px; }
+.car-container { flex-shrink: 0; }
+.car-title { text-align: center; font-size: 14px; font-weight: 700; margin-bottom: 6px; color: #555; }
+.car-title .sub { display: block; font-size: 10px; font-weight: 400; color: #999; }
+.car { background: #fff; border-radius: 20px 20px 10px 10px; box-shadow: 0 3px 16px rgba(0,0,0,.10); padding: 12px 10px 14px; width: 140px; position: relative; border: 2.5px solid #ccc; }
+.car-front { display: flex; justify-content: flex-end; padding: 0 6px 6px; border-bottom: 2px dashed #ddd; margin-bottom: 6px; }
+.car-front span { background: #333; color: #fff; font-size: 9px; font-weight: 600; padding: 3px 8px; border-radius: 5px; }
+.car-row { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 4px; }
+.car .seat { border-radius: 5px; padding: 4px 2px; text-align: center; font-size: 9px; font-weight: 600; min-height: 28px; display: flex; align-items: center; justify-content: center; background: #e8f4fd; border: 1.5px solid #4a9ece; color: #2b6c99; }
+.car-back { border-top: 2px dashed #ddd; margin-top: 4px; padding-top: 4px; text-align: center; font-size: 8px; color: #aaa; }
 
-  .seat.tk { background: #e8f4fd; border: 1.5px solid #4a9ece; color: #2b6c99; }
-  .seat.t2 { background: #f0e8fd; border: 1.5px solid #8a6cce; color: #5a3c93; }
-  .seat.od { background: #fef3e2; border: 1.5px solid #e8a838; color: #8a6318; }
-  .seat.empty { background: #fafafa; border: 1.5px solid #e0e0e0; color: #ccc; }
-  .seat.aux { background: #f5f5f5; border: 1.5px dashed #ccc; color: #bbb; font-size: 7px; min-height: 22px; }
-  .seat.crew { position: relative; }
-  .seat.crew::after { content: '★'; position: absolute; top: 0px; right: 1px; font-size: 6px; }
+/* 部屋割り */
+.rooms-container { max-width: 900px; margin: 0 auto; }
+.rooms-container h2 { font-size: 12px; margin: 16px 0 8px; padding: 6px 12px; border-radius: 20px; color: #fff; display: inline-block; }
+.suite-header { background: linear-gradient(135deg, #8B6914, #C4972A); }
+.female-header { background: linear-gradient(135deg, #C25B78, #E87DA0); }
+.male-header { background: linear-gradient(135deg, #3A6EA5, #5B9BD5); }
+.rooms-container .count { font-size: 9px; color: rgba(255,255,255,0.8); font-weight: normal; margin-left: 6px; }
+.room-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin-bottom: 12px; }
+.room-card { background: #fff; border-radius: 8px; padding: 8px 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 6px; min-height: 42px; }
+.room-card .members { font-weight: 700; font-size: 11px; line-height: 1.4; }
+.room-card .night-tags { display: flex; gap: 3px; flex-wrap: wrap; flex-shrink: 0; margin-left: auto; }
+.night-tag { display: inline-block; padding: 2px 6px; border-radius: 10px; font-size: 8px; font-weight: 600; white-space: nowrap; }
+.n22 { background: #E8F5E9; color: #2E7D32; }
+.n23 { background: #FFF3E0; color: #E65100; }
+.n24 { background: #E3F2FD; color: #1565C0; }
+.alive { background: #F3E5F5; color: #7B1FA2; }
+.room-num { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 22px; border-radius: 4px; background: #f0f0f0; color: #333; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-right: 8px; border: 1.5px solid #ccc; letter-spacing: 0.5px; }
 
-  .bus-back { border-top: 2px dashed #ddd; margin-top: 6px; padding-top: 4px; text-align: center; font-size: 9px; color: #aaa; }
+/* チーム分け */
+.teams-container { max-width: 900px; margin: 0 auto; }
+.teams-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.team-card { background: #fff; border-radius: 10px; padding: 12px 14px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.team-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 2px solid #eee; }
+.team-card-name { font-weight: 700; font-size: 14px; }
+.team-card-tags { display: flex; gap: 3px; }
+.team-tag { font-size: 8px; padding: 1px 5px; border-radius: 3px; font-weight: 600; }
+.team-tag.walk { background: #E8F5E9; color: #2E7D32; }
+.team-member { display: flex; align-items: center; gap: 6px; padding: 3px 0; font-size: 12px; }
+.team-member .name { font-weight: 600; }
+.team-member .badge { font-size: 9px; padding: 1px 4px; border-radius: 3px; font-weight: 600; }
+.badge.solver { background: #FFF3E0; color: #E65100; }
+.badge.limited { background: #FFEBEE; color: #C62828; }
 
-  .notes-section { max-width: 940px; margin: 20px auto 0; }
-  .notes { background: #fffbe6; border: 1px solid #ffe58f; border-radius: 8px; padding: 10px 14px; font-size: 11px; line-height: 1.7; }
-  .notes h3 { font-size: 12px; margin-bottom: 4px; }
-  .notes li { margin-left: 14px; margin-bottom: 2px; }
-  .notes .tag { display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 3px; font-weight: 600; margin-right: 3px; }
-  .notes .tag.tk { background: #e8f4fd; color: #2b6c99; }
-  .notes .tag.t2 { background: #f0e8fd; color: #5a3c93; }
-  .notes .tag.od { background: #fef3e2; color: #8a6318; }
-  .notes .tag.na { background: #fee; color: #c33; }
-
-  .legend { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
-  .legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; }
-  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
-  .legend-dot.tk { background: #e8f4fd; border: 2px solid #4a9ece; }
-  .legend-dot.t2 { background: #f0e8fd; border: 2px solid #8a6cce; }
-  .legend-dot.od { background: #fef3e2; border: 2px solid #e8a838; }
-  .legend-dot.crew { background: #fff; border: 2px solid #999; position: relative; }
-  .legend-dot.crew::after { content: '★'; position: absolute; top: -2px; right: -2px; font-size: 6px; }
-
-  /* 部屋割り */
-  .rooms-container { max-width: 900px; margin: 0 auto; }
-  .rooms-container h2 { font-size: 12px; margin: 16px 0 8px; padding: 6px 12px; border-radius: 20px; color: #fff; display: inline-block; }
-  .suite-header { background: linear-gradient(135deg, #8B6914, #C4972A); }
-  .female-header { background: linear-gradient(135deg, #C25B78, #E87DA0); }
-  .male-header { background: linear-gradient(135deg, #3A6EA5, #5B9BD5); }
-  .note-header { background: linear-gradient(135deg, #555, #888); }
-  .rooms-container .count { font-size: 9px; color: rgba(255,255,255,0.8); font-weight: normal; margin-left: 6px; }
-  .room-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin-bottom: 12px; }
-  .room-card { background: #fff; border-radius: 8px; padding: 8px 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 6px; min-height: 42px; }
-  .room-card .members { font-weight: 700; font-size: 11px; line-height: 1.4; }
-  .room-card .night-tags { display: flex; gap: 3px; flex-wrap: wrap; flex-shrink: 0; margin-left: auto; }
-  .night-tag { display: inline-block; padding: 2px 6px; border-radius: 10px; font-size: 8px; font-weight: 600; white-space: nowrap; }
-  .n22 { background: #E8F5E9; color: #2E7D32; }
-  .n23 { background: #FFF3E0; color: #E65100; }
-  .n24 { background: #E3F2FD; color: #1565C0; }
-  .alive { background: #F3E5F5; color: #7B1FA2; }
-  .note-list { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; }
-  .note-item { background: #fff; border-radius: 6px; padding: 7px 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-size: 11px; display: flex; gap: 8px; align-items: baseline; }
-  .note-icon { font-size: 13px; flex-shrink: 0; }
-  .note-name { font-weight: 600; white-space: nowrap; min-width: 70px; }
-  .note-text { color: #555; }
-  /* チーム分け */
-  .teams-container { max-width: 900px; margin: 0 auto; }
-  .teams-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-bottom: 16px; }
-  .team-card { background: #fff; border-radius: 10px; padding: 12px 14px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
-  .team-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 2px solid #eee; }
-  .team-card-name { font-weight: 700; font-size: 14px; }
-  .team-card-tags { display: flex; gap: 3px; }
-  .team-tag { font-size: 8px; padding: 1px 5px; border-radius: 3px; font-weight: 600; }
-  .team-tag.walk { background: #E8F5E9; color: #2E7D32; }
-  .team-tag.puzzle { background: #FFF3E0; color: #E65100; }
-  .team-member { display: flex; align-items: center; gap: 6px; padding: 3px 0; font-size: 12px; }
-  .team-member .name { font-weight: 600; }
-  .team-member .dept { font-size: 10px; color: #999; }
-  .team-member .badge { font-size: 9px; padding: 1px 4px; border-radius: 3px; font-weight: 600; }
-  .badge.solver { background: #FFF3E0; color: #E65100; }
-  .badge.limited { background: #FFEBEE; color: #C62828; }
-
-  .car-container { flex-shrink: 0; }
-  .car-title { text-align: center; font-size: 14px; font-weight: 700; margin-bottom: 6px; color: #555; }
-  .car-title .sub { display: block; font-size: 10px; font-weight: 400; color: #999; }
-  .car { background: #fff; border-radius: 20px 20px 10px 10px; box-shadow: 0 3px 16px rgba(0,0,0,.10); padding: 12px 10px 14px; width: 140px; position: relative; border: 2.5px solid #ccc; }
-  .car-front { display: flex; justify-content: center; padding: 0 0 6px; border-bottom: 2px dashed #ddd; margin-bottom: 6px; font-size: 9px; color: #aaa; font-weight: 600; }
-  .car-row { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 4px; }
-  .car .seat { border-radius: 5px; padding: 4px 2px; text-align: center; font-size: 9px; font-weight: 600; min-height: 28px; display: flex; align-items: center; justify-content: center; background: #e8f4fd; border: 1.5px solid #4a9ece; color: #2b6c99; }
-  .car-back { border-top: 2px dashed #ddd; margin-top: 4px; padding-top: 4px; text-align: center; font-size: 8px; color: #aaa; }
-
-  /* レスポンシブ：スマホ対応 */
-  .room-num { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 22px; border-radius: 4px; background: #f0f0f0; color: #333; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-right: 8px; border: 1.5px solid #ccc; letter-spacing: 0.5px; }
-
-  @media (max-width: 768px) {
-    body { padding: 12px 8px; }
-    h1 { font-size: 18px; }
-    .subtitle { font-size: 11px; margin-bottom: 12px; }
-    .section-title { font-size: 14px; }
-    .section-sub { font-size: 10px; margin-bottom: 12px; }
-    .tabs { flex-wrap: wrap; justify-content: center; gap: 6px; }
-    .tab { font-size: 11px; padding: 6px 12px; white-space: nowrap; flex-shrink: 0; }
-    .buses { flex-direction: column; align-items: center; }
-    .bus-container { width: 100%; max-width: 320px; }
-    .bus { width: 100%; }
-    .seat { font-size: 8px; min-height: 24px; padding: 2px 1px; }
-    .seat.aux { font-size: 6px; min-height: 20px; }
-    .col-label { font-size: 7px; }
-    .row-label { font-size: 7px; }
-    .bus-title { font-size: 12px; }
-    .bus-title .sub { font-size: 9px; }
-    .legend { gap: 8px; margin-bottom: 12px; }
-    .legend-item { font-size: 10px; }
-    .room-grid { grid-template-columns: 1fr; }
-    .room-card .members { font-size: 11px; }
-    .room-card { padding: 8px 10px; }
-    .rooms-container h2 { font-size: 11px; }
-    .teams-grid { grid-template-columns: 1fr; gap: 8px; }
-    .team-card { padding: 10px 12px; }
-    .team-card-name { font-size: 13px; }
-    .team-member { font-size: 11px; padding: 2px 0; }
-    .team-member .badge { font-size: 8px; }
-    .notes-section { margin-top: 12px; }
-  }
+/* レスポンシブ */
+@media (max-width: 768px) {
+  body { padding: 12px 8px; }
+  h1 { font-size: 18px; }
+  .subtitle { font-size: 11px; margin-bottom: 10px; }
+  body { padding-bottom: 70px; }
+  .main-tab { font-size: 10px; padding: 6px 4px 4px; }
+  .main-tab .tab-icon { font-size: 18px; }
+  .sub-tabs { gap: 4px; }
+  .sub-tab { font-size: 10px; padding: 5px 10px; }
+  .buses { flex-direction: column; align-items: center; }
+  .bus-container { width: 100%; max-width: 320px; }
+  .bus { width: 100%; }
+  .seat { font-size: 8px; min-height: 24px; padding: 2px 1px; }
+  .seat.aux { font-size: 6px; min-height: 20px; }
+  .col-label { font-size: 7px; }
+  .row-label { font-size: 7px; }
+  .bus-title { font-size: 12px; }
+  .bus-title .sub { font-size: 9px; }
+  .legend { gap: 8px; margin-bottom: 12px; }
+  .legend-item { font-size: 10px; }
+  .room-grid { grid-template-columns: 1fr; }
+  .room-card .members { font-size: 11px; }
+  .room-card { padding: 8px 10px; }
+  .rooms-container h2 { font-size: 11px; }
+  .teams-grid { grid-template-columns: 1fr; gap: 8px; }
+  .team-card { padding: 10px 12px; }
+  .team-card-name { font-size: 13px; }
+  .team-member { font-size: 11px; padding: 2px 0; }
+  .team-member .badge { font-size: 8px; }
+  .festival-grid { grid-template-columns: 1fr; }
+  .tl-time { width: 44px; font-size: 12px; }
+}
 </style>
 </head>
 <body>
 
-<h1>📝合宿チーム分け</h1>
-<p class="subtitle">Nstock春合宿2026 ／ 4月2日(木)〜3日(金)</p>
+<h1>Nstock春合宿2026</h1>
+<p class="subtitle">4月2日(木)〜3日(金) ／ ライムリゾート箱根</p>
 
-<!-- タブ切り替え -->
-<div class="tabs">
-  <div class="tab active" onclick="switchTab('outbound')">バス1日目往路</div>
-  <div class="tab" onclick="switchTab('outlet')">バス2日目往路</div>
-  <div class="tab" onclick="switchTab('return')">バス2日目復路</div>
-  <div class="tab" onclick="switchTab('rooms')">部屋割り</div>
-  <div class="tab" onclick="switchTab('teams')" id="teams-btn">レク</div>
-  <div class="tab" onclick="switchTab('majime')">真面目time</div>
+<!-- ===== ボトムナビ ===== -->
+<nav class="main-tabs">
+  <div class="main-tab active" onclick="switchMain('timeline')"><span class="tab-icon">&#128197;</span>タイムライン</div>
+  <div class="main-tab" onclick="switchMain('festival')"><span class="tab-icon">&#127881;</span>フェスティバル</div>
+  <div class="main-tab" onclick="switchMain('team')"><span class="tab-icon">&#128101;</span>チーム分け</div>
+</nav>
+
+<!-- ===== サブタブ（タイムライン用） ===== -->
+<div class="sub-tabs" id="tl-sub-tabs" style="display:flex">
+  <div class="sub-tab active" data-tab="tl-tokyo" style="border-color:#4a9ece">東京発→東京着</div>
+  <div class="sub-tab" data-tab="tl-odawara-tokyo" style="border-color:#e8a838">小田原発→東京着</div>
+  <div class="sub-tab" data-tab="tl-odawara" style="border-color:#b8860b">小田原発→小田原着</div>
 </div>
 
-<!-- ==================== 往路 ==================== -->
-<div id="outbound" class="tab-content active">
+<!-- ===== サブタブ（チーム分け用） ===== -->
+<div class="sub-tabs" id="sub-tabs" style="display:none">
+  <div class="sub-tab active" data-tab="outbound">バス1日目往路</div>
+  <div class="sub-tab" data-tab="outlet">バス2日目往路</div>
+  <div class="sub-tab" data-tab="return">バス2日目復路</div>
+  <div class="sub-tab" data-tab="rooms">部屋割り</div>
+  <div class="sub-tab" data-tab="teams">レク</div>
+  <div class="sub-tab" data-tab="majime">真面目time</div>
+</div>
 
+<!-- ============================================================ -->
+<!--                 タイムライン: 東京発→東京着                  -->
+<!-- ============================================================ -->
+<div id="tl-tokyo" class="tab-content active">
+<div class="timeline-container">
+
+<div class="day-header day1-header">DAY 1 — 4/2(木)</div>
+
+<div class="tl-item highlight">
+  <div class="tl-time">8:45</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">バス集合</div>
+    <div class="tl-card-detail">東京駅 八重洲口 鍛冶橋駐車場<br>大型バス（富士急）37名</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">9:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">バス出発</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">12:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">会場着</div>
+    <div class="tl-card-detail">ライムリゾート箱根</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">12:15</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">集合</div>
+    <div class="tl-card-detail"><span class="tag">司会</span> koni / minmin</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">12:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">シャッフルランチ</div>
+    <div class="tl-card-detail">テーマ「共通点を1つ探す」／ カレー</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">13:15</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">Allhands まじめパート</div>
+    <div class="tl-card-detail">
+      <span class="tag">司会</span> sasayan / jaga<br>
+      ・開会宣言（jaga, 5分）<br>
+      ・ミッション達成と今の行間を埋める（sasayan, 60分）<br>
+      ・相互理解のワークショップ
+    </div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">17:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">休憩</div>
+    <div class="tl-card-detail">散歩・風呂・施設探検</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">18:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">ディナー</div>
+    <div class="tl-card-detail">ビュッフェ + BBQ</div>
+  </div>
+</div>
+<div class="tl-item highlight">
+  <div class="tl-time">20:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">Nstockフェスティバル</div>
+    <div class="tl-card-detail">〜22:00 ／ 以降は任意・静かめに</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">22:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">中締め → フリー</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">24:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">完全消灯</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+
+<div class="day-header day2-header">DAY 2 — 4/3(金)</div>
+
+<div class="tl-item day2">
+  <div class="tl-time">8:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">朝食</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">8:50</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">チェックアウト</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">9:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">集合</div>
+    <div class="tl-card-detail"><span class="tag" style="background:#f0e8fd;color:#5a3c93">司会</span> jaga / koni</div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">9:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">バス出発</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">10:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">御殿場アウトレット着</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item day2 highlight">
+  <div class="tl-time">11:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card secret">
+    <div class="tl-card-title">レクリエーション</div>
+    <div class="tl-card-detail">内容は当日のお楽しみ</div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">14:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">バス出発</div>
+    <div class="tl-card-detail">東京行き（富士急）</div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">17:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">東京着・解散</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item day2 highlight">
+  <div class="tl-time">18:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card" style="border:2px solid #e74c3c;">
+    <div class="tl-card-title">エクストリームタイム</div>
+    <div class="tl-card-detail">豊洲BBQ（希望者のみ）</div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">20:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">完全終了</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+
+</div><!-- /timeline-container -->
+</div><!-- /tl-tokyo -->
+
+<!-- ============================================================ -->
+<!--               タイムライン: 小田原発→東京着                  -->
+<!-- ============================================================ -->
+<div id="tl-odawara-tokyo" class="tab-content">
+<div class="timeline-container">
+
+<div class="day-header day1-header">DAY 1 — 4/2(木)</div>
+
+<div class="tl-item highlight">
+  <div class="tl-time">11:15</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">バス出発</div>
+    <div class="tl-card-detail">小田原駅 集合・出発<br>大型バス（箱根登山）23名</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">12:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">会場着</div>
+    <div class="tl-card-detail">ライムリゾート箱根</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">12:15</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">集合</div>
+    <div class="tl-card-detail"><span class="tag">司会</span> koni / minmin</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">12:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">シャッフルランチ</div>
+    <div class="tl-card-detail">テーマ「共通点を1つ探す」／ カレー</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">13:15</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">Allhands まじめパート</div>
+    <div class="tl-card-detail">
+      <span class="tag">司会</span> sasayan / jaga<br>
+      ・開会宣言（jaga, 5分）<br>
+      ・ミッション達成と今の行間を埋める（sasayan, 60分）<br>
+      ・相互理解のワークショップ
+    </div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">17:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">休憩</div>
+    <div class="tl-card-detail">散歩・風呂・施設探検</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">18:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">ディナー</div>
+    <div class="tl-card-detail">ビュッフェ + BBQ</div>
+  </div>
+</div>
+<div class="tl-item highlight">
+  <div class="tl-time">20:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">Nstockフェスティバル</div>
+    <div class="tl-card-detail">〜22:00 ／ 以降は任意・静かめに</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">22:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">中締め → フリー</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">24:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">完全消灯</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+
+<div class="day-header day2-header">DAY 2 — 4/3(金)</div>
+
+<div class="tl-item day2">
+  <div class="tl-time">8:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">朝食</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">8:50</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">チェックアウト</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">9:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">集合</div>
+    <div class="tl-card-detail"><span class="tag" style="background:#f0e8fd;color:#5a3c93">司会</span> jaga / koni</div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">9:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">バス出発</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">10:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">御殿場アウトレット着</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item day2 highlight">
+  <div class="tl-time">11:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card secret">
+    <div class="tl-card-title">レクリエーション</div>
+    <div class="tl-card-detail">内容は当日のお楽しみ</div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">14:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">バス出発</div>
+    <div class="tl-card-detail">東京行き（富士急）</div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">17:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">東京着・解散</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item day2 highlight">
+  <div class="tl-time">18:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card" style="border:2px solid #e74c3c;">
+    <div class="tl-card-title">エクストリームタイム</div>
+    <div class="tl-card-detail">豊洲BBQ（希望者のみ）</div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">20:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">完全終了</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+
+</div><!-- /timeline-container -->
+</div><!-- /tl-odawara-tokyo -->
+
+<!-- ============================================================ -->
+<!--              タイムライン: 小田原発→小田原着                  -->
+<!-- ============================================================ -->
+<div id="tl-odawara" class="tab-content">
+<div class="timeline-container">
+
+<div class="day-header day1-header">DAY 1 — 4/2(木)</div>
+
+<div class="tl-item highlight">
+  <div class="tl-time">11:15</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">バス出発</div>
+    <div class="tl-card-detail">小田原駅 集合・出発<br>大型バス（箱根登山）23名</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">12:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">会場着</div>
+    <div class="tl-card-detail">ライムリゾート箱根</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">12:15</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">集合</div>
+    <div class="tl-card-detail"><span class="tag">司会</span> koni / minmin</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">12:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">シャッフルランチ</div>
+    <div class="tl-card-detail">テーマ「共通点を1つ探す」／ カレー</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">13:15</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">Allhands まじめパート</div>
+    <div class="tl-card-detail">
+      <span class="tag">司会</span> sasayan / jaga<br>
+      ・開会宣言（jaga, 5分）<br>
+      ・ミッション達成と今の行間を埋める（sasayan, 60分）<br>
+      ・相互理解のワークショップ
+    </div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">17:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">休憩</div>
+    <div class="tl-card-detail">散歩・風呂・施設探検</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">18:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">ディナー</div>
+    <div class="tl-card-detail">ビュッフェ + BBQ</div>
+  </div>
+</div>
+<div class="tl-item highlight">
+  <div class="tl-time">20:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">Nstockフェスティバル</div>
+    <div class="tl-card-detail">〜22:00 ／ 以降は任意・静かめに</div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">22:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">中締め → フリー</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item">
+  <div class="tl-time">24:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">完全消灯</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+
+<div class="day-header day2-header">DAY 2 — 4/3(金)</div>
+
+<div class="tl-item day2">
+  <div class="tl-time">8:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">朝食</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">8:50</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">チェックアウト</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">9:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">集合</div>
+    <div class="tl-card-detail"><span class="tag" style="background:#f0e8fd;color:#5a3c93">司会</span> jaga / koni</div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">9:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">バス出発</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">10:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">御殿場アウトレット着</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+<div class="tl-item day2 highlight">
+  <div class="tl-time">11:00</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card secret">
+    <div class="tl-card-title">レクリエーション</div>
+    <div class="tl-card-detail">内容は当日のお楽しみ</div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">14:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">バス出発</div>
+    <div class="tl-card-detail">小田原行き（箱根登山マイクロバス）</div>
+  </div>
+</div>
+<div class="tl-item day2">
+  <div class="tl-time">15:30</div>
+  <div class="tl-dot"></div>
+  <div class="tl-card">
+    <div class="tl-card-title">小田原着・解散</div>
+    <div class="tl-card-detail"></div>
+  </div>
+</div>
+
+</div><!-- /timeline-container -->
+</div><!-- /tl-odawara -->
+
+<!-- 持ち物リスト（共通・全ルートで表示） -->
+<div id="tl-packing" style="display:block">
+<div class="packing-section">
+  <div class="packing-title">持ち物チェックリスト</div>
+  <div class="packing-grid">
+    <div class="packing-card must">
+      <h4>必須</h4>
+      <ul>
+        <li>着替え</li>
+        <li>タオル</li>
+        <li>歩きやすい靴</li>
+        <li>充電器</li>
+      </ul>
+    </div>
+    <div class="packing-card optional">
+      <h4>任意</h4>
+      <ul>
+        <li>身の回り品</li>
+        <li>酔い止め</li>
+        <li>羽織りもの</li>
+        <li>お酒・おかし</li>
+        <li>PC</li>
+        <li>耳栓</li>
+      </ul>
+    </div>
+    <div class="packing-card provided">
+      <h4>不要（施設完備）</h4>
+      <ul>
+        <li>シャンプー</li>
+        <li>ドライヤー</li>
+        <li>パジャマ</li>
+        <li>ハンガー</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div><!-- /tl-packing -->
+
+<!-- ============================================================ -->
+<!--                      フェスティバル                          -->
+<!-- ============================================================ -->
+<div id="festival" class="tab-content">
+<div class="festival-container">
+
+<div class="festival-header">
+  <h2>Nstockフェスティバル</h2>
+  <p>20:00〜22:00 ／ 以降は任意参加・静かめに</p>
+</div>
+
+<div class="festival-grid">
+  <div class="festival-card" style="border-left-color:#2956A0">
+    <div class="fc-name">推し活 & カラオケ</div>
+    <div class="fc-owner">担当: <span>hosa</span>, <span>hasumin</span></div>
+  </div>
+  <div class="festival-card" style="border-left-color:#C62828">
+    <div class="fc-name">呑兵衛エリア</div>
+    <div class="fc-owner">担当: <span>utmy5</span>, <span>kakkie</span>, <span>arima</span></div>
+  </div>
+  <div class="festival-card" style="border-left-color:#B8860B">
+    <div class="fc-name">ボドゲエリア</div>
+    <div class="fc-owner">担当: <span>nono</span>, <span>wadaben</span>, <span>matano</span></div>
+  </div>
+  <div class="festival-card" style="border-left-color:#2E7D32">
+    <div class="fc-name">TVゲームエリア</div>
+    <div class="fc-owner">担当: <span>joe</span>, <span>michimani</span></div>
+  </div>
+  <div class="festival-card" style="border-left-color:#4FC3F7">
+    <div class="fc-name">酔い冷ましエリア</div>
+    <div class="fc-owner">担当なし（自由利用）</div>
+  </div>
+  <div class="festival-card" style="border-left-color:#7B1FA2">
+    <div class="fc-name">休憩エリア</div>
+    <div class="fc-owner">全員持ち寄り</div>
+  </div>
+</div>
+
+<div class="interest-chart" style="max-width:600px;margin:0 auto 24px;background:#fff;border-radius:12px;padding:16px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);">
+  <h3 style="font-size:15px;font-weight:700;text-align:center;margin-bottom:4px;color:#333;">みんなの気になるエリア</h3>
+  <p style="font-size:11px;color:#999;text-align:center;margin-bottom:14px;">事前アンケート / 複数選択 / 63名回答</p>
+  <div style="display:flex;flex-direction:column;gap:10px;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="flex-shrink:0;width:130px;font-size:13px;font-weight:700;text-align:right;color:#2E7D32;">TVゲーム</span>
+      <div style="flex:1;background:#eee;border-radius:6px;height:28px;overflow:hidden;"><div style="width:60%;height:100%;background:linear-gradient(90deg,#2E7D32,#4CAF50);border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;"><span style="font-size:12px;font-weight:700;color:#fff;">60%</span></div></div>
+      <span style="flex-shrink:0;width:32px;font-size:11px;color:#888;text-align:left;">38人</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="flex-shrink:0;width:130px;font-size:13px;font-weight:700;text-align:right;color:#C62828;">呑兵衛</span>
+      <div style="flex:1;background:#eee;border-radius:6px;height:28px;overflow:hidden;"><div style="width:49%;height:100%;background:linear-gradient(90deg,#C62828,#E53935);border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;"><span style="font-size:12px;font-weight:700;color:#fff;">49%</span></div></div>
+      <span style="flex-shrink:0;width:32px;font-size:11px;color:#888;text-align:left;">31人</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="flex-shrink:0;width:130px;font-size:13px;font-weight:700;text-align:right;color:#B8860B;">ボドゲ</span>
+      <div style="flex:1;background:#eee;border-radius:6px;height:28px;overflow:hidden;"><div style="width:49%;height:100%;background:linear-gradient(90deg,#B8860B,#D4A017);border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;"><span style="font-size:12px;font-weight:700;color:#fff;">49%</span></div></div>
+      <span style="flex-shrink:0;width:32px;font-size:11px;color:#888;text-align:left;">31人</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="flex-shrink:0;width:130px;font-size:13px;font-weight:700;text-align:right;color:#7B1FA2;">持ち寄り</span>
+      <div style="flex:1;background:#eee;border-radius:6px;height:28px;overflow:hidden;"><div style="width:35%;height:100%;background:linear-gradient(90deg,#7B1FA2,#9C27B0);border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;"><span style="font-size:12px;font-weight:700;color:#fff;">35%</span></div></div>
+      <span style="flex-shrink:0;width:32px;font-size:11px;color:#888;text-align:left;">22人</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="flex-shrink:0;width:130px;font-size:13px;font-weight:700;text-align:right;color:#2956A0;">推し活&カラオケ</span>
+      <div style="flex:1;background:#eee;border-radius:6px;height:28px;overflow:hidden;"><div style="width:25%;height:100%;background:linear-gradient(90deg,#2956A0,#3B7DD8);border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;"><span style="font-size:12px;font-weight:700;color:#fff;">25%</span></div></div>
+      <span style="flex-shrink:0;width:32px;font-size:11px;color:#888;text-align:left;">16人</span>
+    </div>
+  </div>
+</div>
+
+<div class="floor-maps">
+  <h3 style="font-size:13px;font-weight:700;text-align:center;margin-bottom:8px;color:#444;">フロアマップ</h3>
+  <img src="floor_map_1F_festival.png" alt="1F フロアマップ">
+  <img src="floor_map_2F_festival.png" alt="2F フロアマップ">
+</div>
+
+</div><!-- /festival-container -->
+</div><!-- /festival -->
+
+<!-- ============================================================ -->
+<!--                チーム分け（サブタブ群）                       -->
+<!-- ============================================================ -->
+
+<!-- 往路 -->
+<div id="outbound" class="tab-content">
 
 <div class="legend">
   <div class="legend-item"><div class="legend-dot tk"></div>東京駅発 37名</div>
@@ -198,7 +901,6 @@
 
 <div class="buses">
 
-<!-- 東京駅発（1台） -->
 <div class="bus-container">
   <div class="bus-title tokyo">東京駅発<span class="count">37名</span>
     <span class="sub">大型バス（富士急）／ 8:45集合 9:00発</span>
@@ -221,7 +923,6 @@
   </div>
 </div>
 
-<!-- 小田原駅発 -->
 <div class="bus-container">
   <div class="bus-title odawara">小田原駅発<span class="count">23名</span>
     <span class="sub">大型バス（箱根登山）／ 11:15発</span>
@@ -245,9 +946,9 @@
 </div>
 
 <div class="car-container">
-  <div class="car-title">🚗 サポートカー<span class="sub">レンタカー（アクア）</span></div>
+  <div class="car-title">サポートカー<span class="sub">レンタカー（アクア）</span></div>
   <div class="car">
-    <div class="car-front">運転席</div>
+    <div class="car-front"><span>運転席</span></div>
     <div class="car-row"><div class="seat crew">taro</div><div class="seat crew">moru</div></div>
     <div class="car-row"><div class="seat" style="background:#f0f0f0;border-color:#ccc;color:#ccc"></div><div class="seat" style="background:#f0f0f0;border-color:#ccc;color:#ccc"></div></div>
     <div class="car-back">◀ 後方 ▶</div>
@@ -255,12 +956,10 @@
 </div>
 
 </div><!-- /buses -->
-
 </div><!-- /outbound -->
 
-<!-- ==================== アウトレット行き ==================== -->
+<!-- アウトレット行き -->
 <div id="outlet" class="tab-content">
-
 
 <div class="legend">
   <div class="legend-item"><div class="legend-dot tk"></div>1号車（富士急）30名</div>
@@ -270,7 +969,6 @@
 
 <div class="buses">
 
-<!-- 1号車（富士急） -->
 <div class="bus-container">
   <div class="bus-title tokyo1">1号車<span class="count">30名</span>
     <span class="sub">大型バス（富士急）／ 9:30発</span>
@@ -287,13 +985,12 @@
     <div class="row"><div class="row-label">7</div><div class="seat tk">gashi</div><div class="seat tk">mariko</div><div class="seat aux">補助</div><div class="seat tk">kobasho</div><div class="seat tk">taichi</div></div>
     <div class="row"><div class="row-label">8</div><div class="seat tk">Rooo</div><div class="seat tk">nam</div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
     <div class="row"><div class="row-label">9</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
-    <div class="row" style="opacity:.5"><div class="row-label">10</div><div class="seat empty" style="font-size:7px;color:#999">🍺二日酔い</div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty" style="font-size:7px;color:#999">🍺二日酔い</div><div class="seat empty"></div></div>
-    <div class="row" style="opacity:.5"><div class="row-label">11</div><div class="seat empty" style="font-size:7px;color:#999">🍺二日酔い</div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty" style="font-size:7px;color:#999">🍺二日酔い</div><div class="seat empty"></div></div>
+    <div class="row" style="opacity:.5"><div class="row-label">10</div><div class="seat empty" style="font-size:7px;color:#999">二日酔い</div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty" style="font-size:7px;color:#999">二日酔い</div><div class="seat empty"></div></div>
+    <div class="row" style="opacity:.5"><div class="row-label">11</div><div class="seat empty" style="font-size:7px;color:#999">二日酔い</div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty" style="font-size:7px;color:#999">二日酔い</div><div class="seat empty"></div></div>
     <div class="bus-back">◀ 後方 ▶</div>
   </div>
 </div>
 
-<!-- 2号車（箱根登山） -->
 <div class="bus-container">
   <div class="bus-title tokyo2">2号車<span class="count">30名</span>
     <span class="sub">大型バス（箱根登山）／ 9:30発</span>
@@ -310,16 +1007,16 @@
     <div class="row"><div class="row-label">7</div><div class="seat t2">joe</div><div class="seat t2">miyasho</div><div class="seat aux">補助</div><div class="seat t2">macha</div><div class="seat t2">koba</div></div>
     <div class="row"><div class="row-label">8</div><div class="seat t2">tanakiyo</div><div class="seat t2">yagi</div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
     <div class="row"><div class="row-label">9</div><div class="seat empty"></div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty"></div><div class="seat empty"></div></div>
-    <div class="row" style="opacity:.5"><div class="row-label">10</div><div class="seat empty" style="font-size:7px;color:#999">🍺二日酔い</div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty" style="font-size:7px;color:#999">🍺二日酔い</div><div class="seat empty"></div></div>
-    <div class="row" style="opacity:.5"><div class="row-label">11</div><div class="seat empty" style="font-size:7px;color:#999">🍺二日酔い</div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty" style="font-size:7px;color:#999">🍺二日酔い</div><div class="seat empty"></div></div>
+    <div class="row" style="opacity:.5"><div class="row-label">10</div><div class="seat empty" style="font-size:7px;color:#999">二日酔い</div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty" style="font-size:7px;color:#999">二日酔い</div><div class="seat empty"></div></div>
+    <div class="row" style="opacity:.5"><div class="row-label">11</div><div class="seat empty" style="font-size:7px;color:#999">二日酔い</div><div class="seat empty"></div><div class="seat aux">補助</div><div class="seat empty" style="font-size:7px;color:#999">二日酔い</div><div class="seat empty"></div></div>
     <div class="bus-back">◀ 後方 ▶</div>
   </div>
 </div>
 
 <div class="car-container">
-  <div class="car-title">🚗 サポートカー<span class="sub">レンタカー（アクア）</span></div>
+  <div class="car-title">サポートカー<span class="sub">レンタカー（アクア）</span></div>
   <div class="car">
-    <div class="car-front">運転席</div>
+    <div class="car-front"><span>運転席</span></div>
     <div class="car-row"><div class="seat crew">taro</div><div class="seat crew">moru</div></div>
     <div class="car-row"><div class="seat" style="background:#f0f0f0;border-color:#ccc;color:#ccc"></div><div class="seat" style="background:#f0f0f0;border-color:#ccc;color:#ccc"></div></div>
     <div class="car-back">◀ 後方 ▶</div>
@@ -327,12 +1024,10 @@
 </div>
 
 </div><!-- /buses -->
-
 </div><!-- /outlet -->
 
-<!-- ==================== 復路 ==================== -->
+<!-- 復路 -->
 <div id="return" class="tab-content">
-
 
 <div class="legend">
   <div class="legend-item"><div class="legend-dot tk"></div>東京行き 43名</div>
@@ -342,7 +1037,6 @@
 
 <div class="buses">
 
-<!-- 東京行き -->
 <div class="bus-container">
   <div class="bus-title tokyo">東京行き<span class="count">43名</span>
     <span class="sub">大型バス（富士急）</span>
@@ -365,7 +1059,6 @@
   </div>
 </div>
 
-<!-- 小田原行き -->
 <div class="bus-container">
   <div class="bus-title odawara">小田原行き<span class="count">17名</span>
     <span class="sub">マイクロバス（箱根登山）</span>
@@ -389,9 +1082,9 @@
 </div>
 
 <div class="car-container">
-  <div class="car-title">🚗 サポートカー<span class="sub">レンタカー（アクア）</span></div>
+  <div class="car-title">サポートカー<span class="sub">レンタカー（アクア）</span></div>
   <div class="car">
-    <div class="car-front">運転席</div>
+    <div class="car-front"><span>運転席</span></div>
     <div class="car-row"><div class="seat crew">taro</div><div class="seat crew">moru</div></div>
     <div class="car-row"><div class="seat" style="background:#f0f0f0;border-color:#ccc;color:#ccc"></div><div class="seat" style="background:#f0f0f0;border-color:#ccc;color:#ccc"></div></div>
     <div class="car-back">◀ 後方 ▶</div>
@@ -399,15 +1092,12 @@
 </div>
 
 </div><!-- /buses -->
-
 </div><!-- /return -->
 
-<!-- ==================== 部屋割り ==================== -->
+<!-- 部屋割り -->
 <div id="rooms" class="tab-content">
-
 <div class="rooms-container">
 
-<!-- スイート -->
 <h2 class="suite-header">スイートルーム（2F・露天風呂付）<span class="count">5室 10名</span></h2>
 <div class="room-grid">
   <div class="room-card"><span class="room-num">214</span><span class="members">azusa.nose・maimai</span><span class="night-tags"><span class="night-tag n22">22時</span><span class="night-tag n23">22-23時</span></span></div>
@@ -417,14 +1107,12 @@
   <div class="room-card"><span class="room-num">218</span><span class="members">hosa・miyochan</span><span class="night-tags"><span class="night-tag n23">22-23時</span> ×2</span></div>
 </div>
 
-<!-- 女性POD -->
 <h2 class="female-header">女性PODルーム（1F）<span class="count">2室 7名</span></h2>
 <div class="room-grid">
   <div class="room-card"><span class="room-num">110</span><span class="members">hasumin・mariko・koni・yumi</span><span class="night-tags"><span class="night-tag alive">生き延びる</span><span class="night-tag n23">22-23時</span> ×2 <span class="night-tag n22">22時</span></span></div>
   <div class="room-card"><span class="room-num">111</span><span class="members">junko・okupi・tsuno</span><span class="night-tags"><span class="night-tag n23">22-23時</span> ×2 <span class="night-tag n24">24時</span></span></div>
 </div>
 
-<!-- 男性POD 1F -->
 <h2 class="male-header">男性PODルーム（1F）<span class="count">9室 27名</span></h2>
 <div class="room-grid">
   <div class="room-card"><span class="room-num">102</span><span class="members">rooo・matano・kobasho</span><span class="night-tags"><span class="night-tag alive">生き延びる</span><span class="night-tag n23">22-23時</span><span class="night-tag n24">24時</span></span></div>
@@ -438,7 +1126,6 @@
   <div class="room-card"><span class="room-num">112</span><span class="members">kakkie・ryo</span><span class="night-tags"><span class="night-tag n24">24時</span><span class="night-tag n22">22時</span></span></div>
 </div>
 
-<!-- 男性POD 2F -->
 <h2 class="male-header">男性PODルーム（2F）<span class="count">7室 20名</span></h2>
 <div class="room-grid">
   <div class="room-card"><span class="room-num">201</span><span class="members">goya・mizunuma・sei</span><span class="night-tags"><span class="night-tag n23">22-23時</span> ×3</span></div>
@@ -457,352 +1144,207 @@
 </div><!-- /rooms-container -->
 </div><!-- /rooms -->
 
-<!-- ==================== チーム分け ==================== -->
+<!-- レク -->
 <div id="teams" class="tab-content">
-
 <div class="teams-container">
-
 <div class="teams-grid">
 
 <div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Team 1</span>
-    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
-  </div>
-  <div class="team-member"><span class="name">gashi</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
-  <div class="team-member"><span class="name">okupi</span><span class="badge limited">🦶セーブ</span></div>
-  <div class="team-member"><span class="name">miyasho</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">Ryo</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">higashi</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">natukifm</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-card-header"><span class="team-card-name">Team 1</span><div class="team-card-tags"><span class="team-tag walk">少なめ1</span></div></div>
+  <div class="team-member"><span class="name">gashi</span><span class="badge solver">歩ける</span><span class="badge solver">得意</span></div>
+  <div class="team-member"><span class="name">okupi</span><span class="badge limited">セーブ</span></div>
+  <div class="team-member"><span class="name">miyasho</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">Ryo</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">higashi</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">natukifm</span><span class="badge solver">歩ける</span></div>
 </div>
 
 <div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Team 2</span>
-    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
-  </div>
-  <div class="team-member"><span class="name">nono</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
-  <div class="team-member"><span class="name">yoshi-P</span><span class="badge limited">🦶セーブ</span></div>
-  <div class="team-member"><span class="name">massy</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">takara</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">Junko</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">macha</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-card-header"><span class="team-card-name">Team 2</span><div class="team-card-tags"><span class="team-tag walk">少なめ1</span></div></div>
+  <div class="team-member"><span class="name">nono</span><span class="badge solver">歩ける</span><span class="badge solver">得意</span></div>
+  <div class="team-member"><span class="name">yoshi-P</span><span class="badge limited">セーブ</span></div>
+  <div class="team-member"><span class="name">massy</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">takara</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">Junko</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">macha</span><span class="badge solver">歩ける</span></div>
 </div>
 
 <div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Team 3</span>
-    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
-  </div>
-  <div class="team-member"><span class="name">matano</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
-  <div class="team-member"><span class="name">maniki</span><span class="badge limited">🦶セーブ</span></div>
-  <div class="team-member"><span class="name">azusa.nose</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">shima</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">joe</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">utmy5</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-card-header"><span class="team-card-name">Team 3</span><div class="team-card-tags"><span class="team-tag walk">少なめ1</span></div></div>
+  <div class="team-member"><span class="name">matano</span><span class="badge solver">歩ける</span><span class="badge solver">得意</span></div>
+  <div class="team-member"><span class="name">maniki</span><span class="badge limited">セーブ</span></div>
+  <div class="team-member"><span class="name">azusa.nose</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">shima</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">joe</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">utmy5</span><span class="badge solver">歩ける</span></div>
 </div>
 
 <div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Team 4</span>
-    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
-  </div>
-  <div class="team-member"><span class="name">wadaben</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
-  <div class="team-member"><span class="name">muga</span><span class="badge limited">🦶セーブ</span></div>
-  <div class="team-member"><span class="name">Rooo</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">tsuno</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">taichi</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">smith</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-card-header"><span class="team-card-name">Team 4</span><div class="team-card-tags"><span class="team-tag walk">少なめ1</span></div></div>
+  <div class="team-member"><span class="name">wadaben</span><span class="badge solver">歩ける</span><span class="badge solver">得意</span></div>
+  <div class="team-member"><span class="name">muga</span><span class="badge limited">セーブ</span></div>
+  <div class="team-member"><span class="name">Rooo</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">tsuno</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">taichi</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">smith</span><span class="badge solver">歩ける</span></div>
 </div>
 
 <div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Team 5</span>
-    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
-  </div>
-  <div class="team-member"><span class="name">ryan</span><span class="badge limited">🦶セーブ</span><span class="badge solver">🧩得意</span></div>
-  <div class="team-member"><span class="name">koni</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">sawady</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">maimai</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">takashi</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">nam</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-card-header"><span class="team-card-name">Team 5</span><div class="team-card-tags"><span class="team-tag walk">少なめ1</span></div></div>
+  <div class="team-member"><span class="name">ryan</span><span class="badge limited">セーブ</span><span class="badge solver">得意</span></div>
+  <div class="team-member"><span class="name">koni</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">sawady</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">maimai</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">takashi</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">nam</span><span class="badge solver">歩ける</span></div>
 </div>
 
 <div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Team 6</span>
-    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
-  </div>
-  <div class="team-member"><span class="name">michimani</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
-  <div class="team-member"><span class="name">hasumin</span><span class="badge limited">🦶セーブ</span></div>
-  <div class="team-member"><span class="name">jaga</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">oppa</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">kakkie</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">mariko</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-card-header"><span class="team-card-name">Team 6</span><div class="team-card-tags"><span class="team-tag walk">少なめ1</span></div></div>
+  <div class="team-member"><span class="name">michimani</span><span class="badge solver">歩ける</span><span class="badge solver">得意</span></div>
+  <div class="team-member"><span class="name">hasumin</span><span class="badge limited">セーブ</span></div>
+  <div class="team-member"><span class="name">jaga</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">oppa</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">kakkie</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">mariko</span><span class="badge solver">歩ける</span></div>
 </div>
 
 <div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Team 7</span>
-    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
-  </div>
-  <div class="team-member"><span class="name">sasayan</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
-  <div class="team-member"><span class="name">yumi</span><span class="badge limited">🦶セーブ</span></div>
-  <div class="team-member"><span class="name">kobaken</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">retu</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">muraki</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">goya</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-card-header"><span class="team-card-name">Team 7</span><div class="team-card-tags"><span class="team-tag walk">少なめ1</span></div></div>
+  <div class="team-member"><span class="name">sasayan</span><span class="badge solver">歩ける</span><span class="badge solver">得意</span></div>
+  <div class="team-member"><span class="name">yumi</span><span class="badge limited">セーブ</span></div>
+  <div class="team-member"><span class="name">kobaken</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">retu</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">muraki</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">goya</span><span class="badge solver">歩ける</span></div>
 </div>
 
 <div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Team 8</span>
-    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
-  </div>
-  <div class="team-member"><span class="name">koudon</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
-  <div class="team-member"><span class="name">arima</span><span class="badge limited">🦶セーブ</span></div>
-  <div class="team-member"><span class="name">wadayoshi</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">kim</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">shino</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">kame</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-card-header"><span class="team-card-name">Team 8</span><div class="team-card-tags"><span class="team-tag walk">少なめ1</span></div></div>
+  <div class="team-member"><span class="name">koudon</span><span class="badge solver">歩ける</span><span class="badge solver">得意</span></div>
+  <div class="team-member"><span class="name">arima</span><span class="badge limited">セーブ</span></div>
+  <div class="team-member"><span class="name">wadayoshi</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">kim</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">shino</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">kame</span><span class="badge solver">歩ける</span></div>
 </div>
 
 <div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Team 9</span>
-    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
-  </div>
-  <div class="team-member"><span class="name">sugiura</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
-  <div class="team-member"><span class="name">tanakiyo</span><span class="badge limited">🦶セーブ</span></div>
-  <div class="team-member"><span class="name">minmin</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">hiroya</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">miyochan</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">kobasho</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-card-header"><span class="team-card-name">Team 9</span><div class="team-card-tags"><span class="team-tag walk">少なめ1</span></div></div>
+  <div class="team-member"><span class="name">sugiura</span><span class="badge solver">歩ける</span><span class="badge solver">得意</span></div>
+  <div class="team-member"><span class="name">tanakiyo</span><span class="badge limited">セーブ</span></div>
+  <div class="team-member"><span class="name">minmin</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">hiroya</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">miyochan</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">kobasho</span><span class="badge solver">歩ける</span></div>
 </div>
 
 <div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Team 10</span>
-    <div class="team-card-tags"><span class="team-tag walk">🦶少なめ1</span></div>
-  </div>
-  <div class="team-member"><span class="name">mizunuma</span><span class="badge solver">🚶歩ける</span><span class="badge solver">🧩得意</span></div>
-  <div class="team-member"><span class="name">hosa</span><span class="badge limited">🦶セーブ</span></div>
-  <div class="team-member"><span class="name">satojun</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">touyu</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">yagi</span><span class="badge solver">🚶歩ける</span></div>
-  <div class="team-member"><span class="name">koba</span><span class="badge solver">🚶歩ける</span></div>
+  <div class="team-card-header"><span class="team-card-name">Team 10</span><div class="team-card-tags"><span class="team-tag walk">少なめ1</span></div></div>
+  <div class="team-member"><span class="name">mizunuma</span><span class="badge solver">歩ける</span><span class="badge solver">得意</span></div>
+  <div class="team-member"><span class="name">hosa</span><span class="badge limited">セーブ</span></div>
+  <div class="team-member"><span class="name">satojun</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">touyu</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">yagi</span><span class="badge solver">歩ける</span></div>
+  <div class="team-member"><span class="name">koba</span><span class="badge solver">歩ける</span></div>
 </div>
 
 </div><!-- /teams-grid -->
-
-
 </div><!-- /teams-container -->
 </div><!-- /teams -->
 
-<!-- ==================== まじめtime ==================== -->
+<!-- まじめtime -->
 <div id="majime" class="tab-content">
-
 <div class="teams-container">
-
 <div class="teams-grid">
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 1</span>
-  </div>
-  <div class="team-member"><span class="name">minmin</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">michimani</span></div>
-  <div class="team-member"><span class="name">hiroya</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 1</span></div><div class="team-member"><span class="name">minmin</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">michimani</span></div><div class="team-member"><span class="name">hiroya</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 2</span>
-  </div>
-  <div class="team-member"><span class="name">koni</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">mariko</span></div>
-  <div class="team-member"><span class="name">takara</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 2</span></div><div class="team-member"><span class="name">koni</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">mariko</span></div><div class="team-member"><span class="name">takara</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 3</span>
-  </div>
-  <div class="team-member"><span class="name">jaga</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">okupi</span></div>
-  <div class="team-member"><span class="name">natukifm</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 3</span></div><div class="team-member"><span class="name">jaga</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">okupi</span></div><div class="team-member"><span class="name">natukifm</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 4</span>
-  </div>
-  <div class="team-member"><span class="name">sasayan</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">Ryo</span></div>
-  <div class="team-member"><span class="name">yagi</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 4</span></div><div class="team-member"><span class="name">sasayan</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">Ryo</span></div><div class="team-member"><span class="name">yagi</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 5</span>
-  </div>
-  <div class="team-member"><span class="name">miyasho</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">kame</span></div>
-  <div class="team-member"><span class="name">sawady</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 5</span></div><div class="team-member"><span class="name">miyasho</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">kame</span></div><div class="team-member"><span class="name">sawady</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 6</span>
-  </div>
-  <div class="team-member"><span class="name">moru</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">higashi</span></div>
-  <div class="team-member"><span class="name">arima</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 6</span></div><div class="team-member"><span class="name">moru</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">higashi</span></div><div class="team-member"><span class="name">arima</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 7</span>
-  </div>
-  <div class="team-member"><span class="name">satojun</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">smith</span></div>
-  <div class="team-member"><span class="name">hasumin</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 7</span></div><div class="team-member"><span class="name">satojun</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">smith</span></div><div class="team-member"><span class="name">hasumin</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 8</span>
-  </div>
-  <div class="team-member"><span class="name">gashi</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">nono</span></div>
-  <div class="team-member"><span class="name">tanakiyo</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 8</span></div><div class="team-member"><span class="name">gashi</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">nono</span></div><div class="team-member"><span class="name">tanakiyo</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 9</span>
-  </div>
-  <div class="team-member"><span class="name">tsuno</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">muga</span></div>
-  <div class="team-member"><span class="name">Junko</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 9</span></div><div class="team-member"><span class="name">tsuno</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">muga</span></div><div class="team-member"><span class="name">Junko</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 10</span>
-  </div>
-  <div class="team-member"><span class="name">massy</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">retu</span></div>
-  <div class="team-member"><span class="name">miyochan</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 10</span></div><div class="team-member"><span class="name">massy</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">retu</span></div><div class="team-member"><span class="name">miyochan</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 11</span>
-  </div>
-  <div class="team-member"><span class="name">taro</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">yumi</span></div>
-  <div class="team-member"><span class="name">sugiura</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 11</span></div><div class="team-member"><span class="name">taro</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">yumi</span></div><div class="team-member"><span class="name">sugiura</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 12</span>
-  </div>
-  <div class="team-member"><span class="name">oppa</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">muraki</span></div>
-  <div class="team-member"><span class="name">Rooo</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 12</span></div><div class="team-member"><span class="name">oppa</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">muraki</span></div><div class="team-member"><span class="name">Rooo</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 13</span>
-  </div>
-  <div class="team-member"><span class="name">ryan</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">azusa.nose</span></div>
-  <div class="team-member"><span class="name">wadayoshi</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 13</span></div><div class="team-member"><span class="name">ryan</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">azusa.nose</span></div><div class="team-member"><span class="name">wadayoshi</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 14</span>
-  </div>
-  <div class="team-member"><span class="name">shima</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">nam</span></div>
-  <div class="team-member"><span class="name">macha</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 14</span></div><div class="team-member"><span class="name">shima</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">nam</span></div><div class="team-member"><span class="name">macha</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 15</span>
-  </div>
-  <div class="team-member"><span class="name">matano</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">kobaken</span></div>
-  <div class="team-member"><span class="name">touyu</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 15</span></div><div class="team-member"><span class="name">matano</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">kobaken</span></div><div class="team-member"><span class="name">touyu</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 16</span>
-  </div>
-  <div class="team-member"><span class="name">kakkie</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">goya</span></div>
-  <div class="team-member"><span class="name">hosa</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 16</span></div><div class="team-member"><span class="name">kakkie</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">goya</span></div><div class="team-member"><span class="name">hosa</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 17</span>
-  </div>
-  <div class="team-member"><span class="name">koba</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">wadaben</span></div>
-  <div class="team-member"><span class="name">shino</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 17</span></div><div class="team-member"><span class="name">koba</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">wadaben</span></div><div class="team-member"><span class="name">shino</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 18</span>
-  </div>
-  <div class="team-member"><span class="name">utmy5</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">taichi</span></div>
-  <div class="team-member"><span class="name">maniki</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 18</span></div><div class="team-member"><span class="name">utmy5</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">taichi</span></div><div class="team-member"><span class="name">maniki</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 19</span>
-    <div class="team-card-tags"><span class="team-tag walk">4人</span></div>
-  </div>
-  <div class="team-member"><span class="name">joe</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">kim</span></div>
-  <div class="team-member"><span class="name">takashi</span></div>
-  <div class="team-member"><span class="name">maimai</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 19</span><div class="team-card-tags"><span class="team-tag walk">4人</span></div></div><div class="team-member"><span class="name">joe</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">kim</span></div><div class="team-member"><span class="name">takashi</span></div><div class="team-member"><span class="name">maimai</span></div></div>
 
-<div class="team-card">
-  <div class="team-card-header">
-    <span class="team-card-name">Group 20</span>
-    <div class="team-card-tags"><span class="team-tag walk">4人</span></div>
-  </div>
-  <div class="team-member"><span class="name">koudon</span><span class="badge solver">⚡ファシリ</span></div>
-  <div class="team-member"><span class="name">mizunuma</span></div>
-  <div class="team-member"><span class="name">kobasho</span></div>
-  <div class="team-member"><span class="name">yoshi-P</span></div>
-</div>
+<div class="team-card"><div class="team-card-header"><span class="team-card-name">Group 20</span><div class="team-card-tags"><span class="team-tag walk">4人</span></div></div><div class="team-member"><span class="name">koudon</span><span class="badge solver">ファシリ</span></div><div class="team-member"><span class="name">mizunuma</span></div><div class="team-member"><span class="name">kobasho</span></div><div class="team-member"><span class="name">yoshi-P</span></div></div>
 
 </div><!-- /teams-grid -->
-
-
 </div><!-- /teams-container -->
 </div><!-- /majime -->
 
 <script>
-function switchTab(tab) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+const tlSubTabs = document.getElementById('tl-sub-tabs');
+const teamSubTabs = document.getElementById('sub-tabs');
+const packing = document.getElementById('tl-packing');
+
+function switchMain(tab) {
+  document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+  event.currentTarget.classList.add('active');
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  document.getElementById(tab).classList.add('active');
-  document.querySelector(`.tab[onclick*="${tab}"]`).classList.add('active');
+  tlSubTabs.style.display = 'none';
+  teamSubTabs.style.display = 'none';
+  packing.style.display = 'none';
+
+  if (tab === 'timeline') {
+    tlSubTabs.style.display = 'flex';
+    packing.style.display = 'block';
+    const active = tlSubTabs.querySelector('.sub-tab.active');
+    document.getElementById(active ? active.dataset.tab : 'tl-tokyo').classList.add('active');
+  } else if (tab === 'team') {
+    teamSubTabs.style.display = 'flex';
+    const active = teamSubTabs.querySelector('.sub-tab.active');
+    document.getElementById(active ? active.dataset.tab : 'outbound').classList.add('active');
+  } else {
+    document.getElementById(tab).classList.add('active');
+  }
+}
+
+function bindSubTabs(container) {
+  container.querySelectorAll('.sub-tab').forEach(btn => {
+    btn.addEventListener('click', function() {
+      container.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(this.dataset.tab).classList.add('active');
+    });
+  });
+}
+bindSubTabs(tlSubTabs);
+bindSubTabs(teamSubTabs);
+
+// Service Worker登録
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 </script>
 
