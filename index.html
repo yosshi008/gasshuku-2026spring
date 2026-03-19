@@ -60,20 +60,6 @@ h1 { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 4px; 
 .tl-card-detail .tag { display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 3px; font-weight: 600; margin-right: 2px; background: #e8f4fd; color: #2b6c99; }
 .tl-card.secret { border: 2px dashed #e8a838; background: #fffbe6; }
 
-/* 持ち物リスト */
-.packing-section { max-width: 600px; margin: 24px auto 0; }
-.packing-title { font-size: 14px; font-weight: 700; text-align: center; margin-bottom: 10px; }
-.packing-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
-.packing-card { background: #fff; border-radius: 8px; padding: 10px 14px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
-.packing-card h4 { font-size: 12px; font-weight: 700; margin-bottom: 4px; }
-.packing-card.must h4 { color: #c33; }
-.packing-card.optional h4 { color: #2b6c99; }
-.packing-card.provided h4 { color: #2E7D32; }
-.packing-card ul { list-style: none; font-size: 11px; line-height: 1.8; color: #555; }
-.packing-card ul li::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
-.packing-card.must ul li::before { background: #c33; }
-.packing-card.optional ul li::before { background: #4a9ece; }
-.packing-card.provided ul li::before { background: #2E7D32; }
 
 /* ===== フェスティバル ===== */
 .festival-container { max-width: 700px; margin: 0 auto; }
@@ -227,8 +213,6 @@ h1 { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 4px; 
 </head>
 <body>
 
-<h1>合宿チーム分け</h1>
-<p class="subtitle">Nstock春合宿2026 ／ 4月2日(木)〜3日(金)</p>
 
 <!-- ===== ボトムナビ（公開時に復活） ===== -->
 <!--
@@ -814,43 +798,6 @@ h1 { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 4px; 
 </div><!-- /tl-odawara -->
 
 <!-- 持ち物リスト（共通・全ルートで表示） -->
-<div id="tl-packing" style="display:block">
-<div class="packing-section">
-  <div class="packing-title">持ち物チェックリスト</div>
-  <div class="packing-grid">
-    <div class="packing-card must">
-      <h4>必須</h4>
-      <ul>
-        <li>着替え</li>
-        <li>タオル</li>
-        <li>歩きやすい靴</li>
-        <li>充電器</li>
-      </ul>
-    </div>
-    <div class="packing-card optional">
-      <h4>任意</h4>
-      <ul>
-        <li>身の回り品</li>
-        <li>酔い止め</li>
-        <li>羽織りもの</li>
-        <li>お酒・おかし</li>
-        <li>PC</li>
-        <li>耳栓</li>
-      </ul>
-    </div>
-    <div class="packing-card provided">
-      <h4>不要（施設完備）</h4>
-      <ul>
-        <li>シャンプー</li>
-        <li>ドライヤー</li>
-        <li>パジャマ</li>
-        <li>ハンガー</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-</div><!-- /tl-packing -->
 
 <!-- ============================================================ -->
 <!--                      フェスティバル                          -->
@@ -1450,7 +1397,6 @@ h1 { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 4px; 
 <script>
 const tlSubTabs = document.getElementById('tl-sub-tabs');
 const teamSubTabs = document.getElementById('sub-tabs');
-const packing = document.getElementById('tl-packing');
 
 function switchMain(tab) {
   document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
@@ -1458,11 +1404,9 @@ function switchMain(tab) {
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
   tlSubTabs.style.display = 'none';
   teamSubTabs.style.display = 'none';
-  packing.style.display = 'none';
 
   if (tab === 'timeline') {
     tlSubTabs.style.display = 'flex';
-    packing.style.display = 'block';
     const active = tlSubTabs.querySelector('.sub-tab.active');
     document.getElementById(active ? active.dataset.tab : 'tl-tokyo').classList.add('active');
   } else if (tab === 'team') {
